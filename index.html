@@ -330,15 +330,25 @@
     <div class="modal" id="payment-modal">
         <div class="modal-content">
             <span class="close-modal">&times;</span>
-            <h2>Оплата услуги</h2>
-            <p>Вы обрали: <span id="selected-service"></span></p>
+            <h2>Оплата послуги</h2>
+            <p>Ви обрали: <span id="selected-service"></span></p>
             <p>Вартість: <span id="service-price"></span></p>
             
             <div id="wayforpay-widget" style="margin: 20px 0;">
-                <!-- Здесь будет форма Wayforpay -->
-                <p>Форма оплати буде завантажена після підтвердження запису</p>
+                <div class="payment-instructions">
+                <p>Для завершення оплати:</p>
+                <ol>
+                    <li>Натисніть кнопку "Оплатити"</li>
+                    <li>Заповніть дані картки у відкритому вікні</li>
+                    <li>Очікуйте підтвердження на email</li>
+                </ol>
             </div>
-            
+            </div>
+            <div class="payment-contacts">
+            <p>У разі проблем з оплатою:</p>
+            <p><i class="fas fa-phone"></i> +38 (044) 379 48 49</p>
+            <p><i class="fas fa-envelope"></i> support@wayforpay.com</p>
+            </div>
             <p>Після оплати з Вами звʼяжеться адміністратор для підтвердження запису.</p>
         </div>
     </div>
@@ -467,52 +477,66 @@
 
         // Функция для инициализации платежа через Wayforpay
         function initWayforpayPayment(service, price) {
-            const wayforpay = new Wayforpay();
-            
-            // Настройки платежа (замените на свои данные)
-            const paymentSettings = {
-                merchantAccount: "andriy007i_github_io", // Ваш мерчант аккаунт
-                orderReference: "ORDER_" + Math.random().toString(36).substr(2, 9),
-                orderDate: Math.floor(Date.now() / 1000),
-                amount: price,
-                currency: "UAH", // Или другая валюта
-                productName: [service],
-                productPrice: [price],
-                productCount: [1],
-                clientFirstName: document.getElementById('name').value.split(' ')[0] || 'Client',
-                clientLastName: document.getElementById('name').value.split(' ')[1] || '',
-                clientEmail: document.getElementById('email').value || 'no-email@example.com',
-                clientPhone: document.getElementById('phone').value || '380000000000',
-                language: "ukr",
-                serviceUrl: "https://andriy007i.github.io/Site-Cosmetolog/", // URL для callback
-                returnUrl: "https://andriy007i.github.io/Site-Cosmetolog/" // URL после оплаты
-            };
-
-            // Инициализация платежа
-            wayforpay.run(paymentSettings);
+            try {
+        // Проверяем загружен ли Wayforpay
+        if (typeof Wayforpay === 'undefined') {
+            throw new Error('Платіжна система тимчасово недоступна');
         }
+        
+        // Получаем сумму (удаляем ' грн.')
+        const amount = parseFloat(price.replace(' грн.', ''));
+        
+        const wayforpay = new Wayforpay();
+        
+        const paymentSettings = {
+            merchantAccount: "andriy007i_github_io", // ЗАМЕНИТЕ НА РЕАЛЬНЫЙ
+            merchantDomainName: "https://andriy007i.github.io/Site-Cosmetolog/", // ЗАМЕНИТЕ НА РЕАЛЬНЫЙ
+            merchantSignature: "your_signature", // Должен генерироваться на сервере
+            orderReference: "ORDER_" + Date.now(),
+            orderDate: Math.floor(Date.now() / 1000),
+            amount: amount,
+            currency: "UAH",
+            productName: [service],
+            productPrice: [amount],
+            productCount: [1],
+            clientFirstName: document.getElementById('name').value.split(' ')[0] || 'Клієнт',
+            clientEmail: document.getElementById('email').value || '',
+            clientPhone: document.getElementById('phone').value.replace(/\D/g, '') || '380000000000',
+            language: "ua",
+            serviceUrl: "https://andriy007i.github.io/Site-Cosmetolog/", // ЗАМЕНИТЕ
+            returnUrl: "https://andriy007i.github.io/Site-Cosmetolog/" // ЗАМЕНИТЕ
+        };
+
+        wayforpay.run(paymentSettings);
+    } catch (error) {
+        console.error('Payment Error:', error);
+        alert('Помилка ініціалізації платежу: ' + error.message);
+    }
+}
 
         // Обновляем функцию openPaymentModal
-        function openPaymentModal(service, price) {
-            document.getElementById('selected-service').textContent = service;
-            document.getElementById('service-price').textContent = price;
-            modal.style.display = 'flex';
-            
-            // Очищаем предыдущий контент виджета
-            document.getElementById('wayforpay-widget').innerHTML = '';
-            
-            // Создаем кнопку для запуска платежа
-            const payButton = document.createElement('button');
-            payButton.className = 'btn';
-            payButton.textContent = 'Оплатити зараз';
-            payButton.style.width = '100%';
-            payButton.style.margin = '20px 0';
-            payButton.onclick = function() {
-                initWayforpayPayment(service, parseFloat(price));
-            };
-            
-            document.getElementById('wayforpay-widget').appendChild(payButton);
-        }
+        // Обновленная функция открытия модального окна
+function openPaymentModal(service, price) {
+    const modal = document.getElementById('payment-modal');
+    document.getElementById('selected-service').textContent = service;
+    document.getElementById('service-price').textContent = price;
+    
+    const widget = document.getElementById('wayforpay-widget');
+    widget.innerHTML = `
+        <button id="pay-now-btn" class="btn" style="width:100%;padding:12px;">
+            Оплатити ${price}
+        </button>
+        <p style="text-align:center;margin-top:10px;font-size:14px;">
+            <i class="fas fa-lock"></i> Безпечна оплата через Wayforpay
+        </p>
+    `;
+    
+    document.getElementById('pay-now-btn').addEventListener('click', function() {
+        initWayforpayPayment(service, price);
+    });
+    
+    modal.style.display = 'flex';
+}
 
     </script>
 </body>
