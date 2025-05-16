@@ -471,8 +471,7 @@
             
             // Настройки платежа (замените на свои данные)
             const paymentSettings = {
-                merchantAccount: "your_merchant_account", // Ваш мерчант аккаунт
-                merchantDomainName: "yourdomain.com", // Ваш домен
+                merchantAccount: "andriy007i_github_io", // Ваш мерчант аккаунт
                 orderReference: "ORDER_" + Math.random().toString(36).substr(2, 9),
                 orderDate: Math.floor(Date.now() / 1000),
                 amount: price,
@@ -485,8 +484,8 @@
                 clientEmail: document.getElementById('email').value || 'no-email@example.com',
                 clientPhone: document.getElementById('phone').value || '380000000000',
                 language: "ukr",
-                serviceUrl: "https://yourdomain.com/callback", // URL для callback
-                returnUrl: "https://yourdomain.com/thank-you" // URL после оплаты
+                serviceUrl: "https://andriy007i.github.io/Site-Cosmetolog/", // URL для callback
+                returnUrl: "https://andriy007i.github.io/Site-Cosmetolog/" // URL после оплаты
             };
 
             // Инициализация платежа
