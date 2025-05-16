@@ -355,182 +355,162 @@
 
     <!-- Скрипты -->
     <script>
-        // Мобильное меню
-        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
-            document.querySelector('.nav-links').classList.toggle('active');
-        });
-        // Добавить в начало скрипта
-        const modal = document.getElementById('payment-modal');
-        document.querySelector('.close-modal').addEventListener('click', function() {
+    // Мобильное меню
+    document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+        document.querySelector('.nav-links').classList.toggle('active');
+    });
+
+    // Модальное окно
+    const modal = document.getElementById('payment-modal');
+    document.querySelector('.close-modal').addEventListener('click', function() {
+        modal.style.display = 'none';
+    });
+
+    window.addEventListener('click', function(e) {
+        if (e.target === modal) {
             modal.style.display = 'none';
-        });
+        }
+    });
 
-        // Закрытие при клике вне окна
-        window.addEventListener('click', function(e) {
-            if (e.target === modal) {
-                modal.style.display = 'none';
-            }
-        });
-        
-        // Плавная прокрутка
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-                
-                // Закрываем мобильное меню после клика
-                document.querySelector('.nav-links').classList.remove('active');
-            });
-        });
-        
-        // Слайдер отзывов
-        const testimonials = document.querySelectorAll('.testimonial');
-        const dots = document.querySelectorAll('.slider-dot');
-        
-        dots.forEach(dot => {
-            dot.addEventListener('click', function() {
-                const slideIndex = this.getAttribute('data-slide');
-                
-                // Скрываем все отзывы
-                testimonials.forEach(testimonial => {
-                    testimonial.classList.remove('active');
-                });
-                
-                // Убираем активный класс со всех точек
-                dots.forEach(dot => {
-                    dot.classList.remove('active');
-                });
-                
-                // Показываем выбранный отзыв
-                testimonials[slideIndex].classList.add('active');
-                this.classList.add('active');
-            });
-        });
-        
-        // Автоматическая смена слайдов
-        let currentSlide = 0;
-        setInterval(() => {
-            currentSlide = (currentSlide + 1) % testimonials.length;
-            
-            testimonials.forEach(testimonial => {
-                testimonial.classList.remove('active');
-            });
-            
-            dots.forEach(dot => {
-                dot.classList.remove('active');
-            });
-            
-            testimonials[currentSlide].classList.add('active');
-            dots[currentSlide].classList.add('active');
-        }, 5000);
-        
-        // Кнопки "Записаться" на карточках услуг
-        document.querySelectorAll('.book-btn').forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                e.preventDefault();
-                const service = this.getAttribute('data-service');
-                
-                // Устанавливаем выбранную услугу в форме
-                document.getElementById('service').value = service;
-                
-                // Прокручиваем к форме
-                document.getElementById('booking').scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
-        // Обработка формы записи с интеграцией Wayforpay
-        document.getElementById('appointment-form').addEventListener('submit', function(e) {
+    // Плавная прокрутка
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
             e.preventDefault();
-            
-            // Получаем данные из формы
-            const formData = {
-                name: document.getElementById('name').value,
-                phone: document.getElementById('phone').value,
-                email: document.getElementById('email').value,
-                service: document.getElementById('service').value,
-                date: document.getElementById('date').value,
-                message: document.getElementById('message').value
-            };
-            
-            // Определяем цену в зависимости от услуги
-            let price;
-            switch(formData.service) {
-                case 'Чистка лиця': price = 1000; break;
-                case 'Біоревіталізація': price = 2000; break;
-                case 'Ботулінотерапія': price = 3000; break;
-                case 'Хімічний пілінг': price = 2000; break;
-                case 'Контурна пластика': price = 3500; break;
-                case 'RF-ліфтинг': price = 3500; break;
-                default: price = 0;
-            }
-            
-            // Показываем модальное окно с оплатой
-            openPaymentModal(formData.service, price + ' грн.');
-            
-            // Здесь можно добавить AJAX-запрос для сохранения заявки на сервере
-            // sendAppointmentToServer(formData);
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+            document.querySelector('.nav-links').classList.remove('active');
         });
+    });
 
-        // Функция для инициализации платежа через Wayforpay
-        function initWayforpayPayment(service, price) {
-    try {
-        // Проверяем, загружен ли Wayforpay
-        if (typeof Wayforpay === 'undefined') {
-            throw new Error('Платіжна система тимчасово недоступна');
+    // Слайдер отзывов
+    const testimonials = document.querySelectorAll('.testimonial');
+    const dots = document.querySelectorAll('.slider-dot');
+    
+    dots.forEach(dot => {
+        dot.addEventListener('click', function() {
+            const slideIndex = this.getAttribute('data-slide');
+            testimonials.forEach(t => t.classList.remove('active'));
+            dots.forEach(d => d.classList.remove('active'));
+            testimonials[slideIndex].classList.add('active');
+            this.classList.add('active');
+        });
+    });
+
+    let currentSlide = 0;
+    setInterval(() => {
+        currentSlide = (currentSlide + 1) % testimonials.length;
+        testimonials.forEach(t => t.classList.remove('active'));
+        dots.forEach(d => d.classList.remove('active'));
+        testimonials[currentSlide].classList.add('active');
+        dots[currentSlide].classList.add('active');
+    }, 5000);
+
+    // Кнопки "Записаться" на карточках услуг
+    document.querySelectorAll('.book-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('service').value = this.getAttribute('data-service');
+            document.getElementById('booking').scrollIntoView({ behavior: 'smooth' });
+        });
+    });
+
+    // Функция для инициализации платежа
+    function initWayforpayPayment(service, price) {
+        try {
+            if (typeof Wayforpay === 'undefined') {
+                throw new Error('Платіжна система тимчасово недоступна');
+            }
+
+            const amount = parseFloat(price.toString().replace(' грн.', ''));
+            const wayforpay = new Wayforpay();
+
+            const paymentSettings = {
+                merchantAccount: "test_merch_n1",
+                merchantDomainName: window.location.hostname,
+                orderReference: "TEST_" + Date.now(),
+                orderDate: Math.floor(Date.now() / 1000),
+                amount: amount,
+                currency: "UAH",
+                productName: [service],
+                productPrice: [amount],
+                productCount: [1],
+                clientFirstName: document.getElementById('name').value.split(' ')[0] || 'Тестовий',
+                clientEmail: document.getElementById('email').value || 'test@example.com',
+                clientPhone: document.getElementById('phone').value.replace(/\D/g, '') || '380000000000',
+                language: "ua",
+                serviceUrl: "https://" + window.location.hostname + "/callback",
+                returnUrl: "https://" + window.location.hostname + "/thank-you",
+                merchantSignature: "demo_signature"
+            };
+
+            wayforpay.run(paymentSettings);
+        } catch (error) {
+            console.error('Payment Error:', error);
+            alert('Помилка ініціалізації платежу: ' + error.message);
+        }
+    }
+
+    // Функция открытия модального окна
+    function openPaymentModal(service, price) {
+        document.getElementById('selected-service').textContent = service;
+        document.getElementById('service-price').textContent = price;
+        
+        const widget = document.getElementById('wayforpay-widget');
+        widget.innerHTML = `
+            <button id="pay-now-btn" class="btn" style="width:100%;padding:12px;">
+                Оплатити ${price}
+            </button>
+            <p style="text-align:center;margin-top:10px;font-size:14px;">
+                <i class="fas fa-lock"></i> Безпечна оплата через Wayforpay
+            </p>
+        `;
+        
+        document.getElementById('pay-now-btn').addEventListener('click', function() {
+            initWayforpayPayment(service, price);
+        });
+        
+        modal.style.display = 'flex';
+    }
+
+    // Обработка формы записи
+    document.getElementById('appointment-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const formData = {
+            name: document.getElementById('name').value,
+            phone: document.getElementById('phone').value,
+            email: document.getElementById('email').value,
+            service: document.getElementById('service').value,
+            date: document.getElementById('date').value,
+            message: document.getElementById('message').value
+        };
+
+        // Валидация
+        if (!formData.name || !formData.phone || !formData.service || !formData.date) {
+            alert('Будь ласка, заповніть обов\'язкові поля');
+            return;
         }
 
-        // Удаляем " грн." и преобразуем в число
-        const amount = parseFloat(price.toString().replace(' грн.', ''));
-
-        // Демо-данные Wayforpay (тестовый режим)
-        const paymentSettings = {
-            merchantAccount: "test_merch_n1", // Демо-мерчант
-            merchantDomainName: window.location.hostname, // Текущий домен
-            orderReference: "TEST_" + Date.now(), // Уникальный ID
-            orderDate: Math.floor(Date.now() / 1000),
-            amount: amount,
-            currency: "UAH",
-            productName: [service],
-            productPrice: [amount],
-            productCount: [1],
-            clientFirstName: document.getElementById('name').value.split(' ')[0] || 'Тестовий',
-            clientEmail: document.getElementById('email').value || 'test@example.com',
-            clientPhone: document.getElementById('phone').value.replace(/\D/g, '') || '380000000000',
-            language: "ua",
-            serviceUrl: "https://" + window.location.hostname + "/callback", // Фиктивный URL
-            returnUrl: "https://" + window.location.hostname + "/thank-you", // Страница после оплаты
-            // Демо-подпись (не требуется в тестовом режиме)
-            merchantSignature: "demo_signature" // В реальном коде это генерируется на бэкенде
+        // Определяем цену
+        const prices = {
+            'Чистка лиця': 1000,
+            'Біоревіталізація': 2000,
+            'Ботулінотерапія': 3000,
+            'Хімічний пілінг': 2000,
+            'Контурна пластика': 3500,
+            'RF-ліфтинг': 3500
         };
-    }
-        // Обновляем функцию openPaymentModal
-        // Обновленная функция открытия модального окна
-function openPaymentModal(service, price) {
-    const modal = document.getElementById('payment-modal');
-    document.getElementById('selected-service').textContent = service;
-    document.getElementById('service-price').textContent = price;
-    
-    const widget = document.getElementById('wayforpay-widget');
-    widget.innerHTML = `
-        <button id="pay-now-btn" class="btn" style="width:100%;padding:12px;">
-            Оплатити ${price}
-        </button>
-        <p style="text-align:center;margin-top:10px;font-size:14px;">
-            <i class="fas fa-lock"></i> Безпечна оплата через Wayforpay
-        </p>
-    `;
-    
-    document.getElementById('pay-now-btn').addEventListener('click', function() {
-        initWayforpayPayment(service, price);
-    });
-    
-    modal.style.display = 'flex';
-}
 
-    </script>
+        const price = prices[formData.service] || 0;
+        
+        // Показываем модальное окно с оплатой
+        openPaymentModal(formData.service, price + ' грн.');
+        
+        // Здесь можно добавить отправку данных на сервер
+        console.log('Дані форми:', formData);
+        alert('Ваша заявка прийнята! Очікуйте дзвінка для підтвердження.');
+    });
+</script>
 </body>
 </html>
