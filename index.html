@@ -460,31 +460,15 @@
 
     // Функция открытия модального окна
     function openPaymentModal(service, price) {
-        if (!window.Wayforpay) {
-    alert('Зачекайте, платіжна система завантажується...');
-    setTimeout(() => openPaymentModal(service, price), 1000);
-    return;
-  }
-        document.getElementById('selected-service').textContent = service;
-        document.getElementById('service-price').textContent = price;
-        
-        const widget = document.getElementById('wayforpay-widget');
-        widget.innerHTML = `
-            <button id="pay-now-btn" class="btn" style="width:100%;padding:12px;">
-                Оплатити ${price}
-            </button>
-            <p style="text-align:center;margin-top:10px;font-size:14px;">
-                <i class="fas fa-lock"></i> Безпечна оплата через Wayforpay
-            </p>
-        `;
-        
-        document.getElementById('pay-now-btn').addEventListener('click', function() {
-            initWayforpayPayment(service, price);
-        });
-        
-        modal.style.display = 'flex';
-    }
-
+  const amount = parseFloat(price.toString().replace(' грн.', ''));
+  const iframe = document.createElement('iframe');
+  iframe.src = `https://secure.wayforpay.com/button/buy?merchantAccount=test_merch_n1&amount=${amount}&currency=UAH`;
+  iframe.style.width = '100%';
+  iframe.style.height = '500px';
+  document.getElementById('wayforpay-widget').innerHTML = '';
+  document.getElementById('wayforpay-widget').appendChild(iframe);
+  modal.style.display = 'flex';
+}
     // Обработка формы записи
     document.getElementById('appointment-form').addEventListener('submit', function(e) {
         e.preventDefault();
