@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профессиональная косметология | Ваше имя</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Общие стили */
+        :root {
+            --primary-color: #ff6b98;
+            --secondary-color: #5a287d;
+            --light-color: #fdf2f6;
+            --dark-color: #333;
+            --white: #fff;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            line-height: 1.6;
+            color: var(--dark-color);
+            background-color: var(--white);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        section {
+            padding: 60px 0;
+        }
+        
+        h1, h2, h3 {
+            margin-bottom: 20px;
+            color: var(--secondary-color);
+        }
+        
+        p {
+            margin-bottom: 15px;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .text-center {
+            text-align: center;
+        }
+        
+        /* Шапка */
+        header {
+            background-color: var(--white);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--secondary-color);
+            text-decoration: none;
+        }
+        
+        .logo span {
+            color: var(--primary-color);
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 30px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark-color);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--dark-color);
+            cursor: pointer;
+        }
+        
+        /* Герой секция */
+        .hero {
+            background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), 
+                        url('https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 80px;
+        }
+        
+        .hero-content {
+            max-width: 600px;
+        }
+        
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        
+        .hero p {
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+        
+        /* Обо мне */
+        .about {
+            background-color: var(--light-color);
+        }
+        
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+        
+        .about-img {
+            flex: 1;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .about-img img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .about-text {
+            flex: 1;
+        }
+        
+        /* Услуги */
+        .services {
+            background-color: var(--white);
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .service-card {
+            background-color: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .service-img {
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .service-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .service-card:hover .service-img img {
+            transform: scale(1.1);
+        }
+        
+        .service-info {
+            padding: 20px;
+        }
+        
+        .service-info h3 {
+            margin-bottom: 10px;
+        }
+        
+        .price {
+            font-weight: bold;
+            color: var(--primary-color);
+            font-size: 20px;
+            margin: 15px 0;
+        }
+        
+        /* Галерея */
+        .gallery {
+            background-color: var(--light-color);
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+        
+        .gallery-item {
+            height: 250px;
+            overflow: hidden;
+            border-radius: 10px;
+            position: relative;
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+        
+        /* Отзывы */
+        .testimonials {
+            background-color: var(--white);
+        }
+        
+        .testimonials-slider {
+            max-width: 800px;
+            margin: 40px auto 0;
+            position: relative;
+        }
+        
+        .testimonial {
+            background-color: var(--light-color);
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            display: none;
+        }
+        
+        .testimonial.active {
+            display: block;
+        }
+        
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+        
+        .client-info {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .client-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 15px;
+        }
+        
+        .client-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .client-name {
+            font-weight: bold;
+        }
+        
+        .slider-controls {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .slider-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #ccc;
+            margin: 0 5px;
+            cursor: pointer;
+        }
+        
+        .slider-dot.active {
+            background-color: var(--primary-color);
+        }
+        
+        /* Запись */
+        .booking {
+            background-color: var(--light-color);
+        }
+        
+        .booking-form {
+            max-width: 600px;
+            margin: 40px auto 0;
+            background-color: var(--white);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        .form-group textarea {
+            height: 100px;
+            resize: vertical;
+        }
+        
+        /* Подвал */
+        footer {
+            background-color: var(--secondary-color);
+            color: var(--white);
+            padding: 40px 0 20px;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+        
+        .footer-column {
+            flex: 1;
+            min-width: 250px;
+            margin-bottom: 20px;
+        }
+        
+        .footer-column h3 {
+            color: var(--white);
+            margin-bottom: 20px;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--primary-color);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-links a {
+            color: var(--white);
+            font-size: 20px;
+            transition: color 0.3s;
+        }
+        
+        .social-links a:hover {
+            color: var(--primary-color);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Модальное окно */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: var(--white);
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--dark-color);
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 992px) {
+            .about-content {
+                flex-direction: column;
+            }
+            
+            .hero h1 {
+                font-size: 36px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 80px;
+                left: 0;
+                width: 100%;
+                background-color: var(--white);
+                flex-direction: column;
+                align-items: center;
+                padding: 20px 0;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            }
+            
+            .nav-links.active {
+                display: flex;
+            }
+            
+            .nav-links li {
+                margin: 10px 0;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            section {
+                padding: 40px 0;
+            }
+            
+            .hero {
+                height: auto;
+                padding: 120px 0 60px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .hero h1 {
+                font-size: 28px;
+            }
+            
+            .btn {
+                padding: 10px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Шапка -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">Косметолог<span>Профи</span></a>
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <ul class="nav-links">
+                    <li><a href="#home">Главная</a></li>
+                    <li><a href="#about">Обо мне</a></li>
+                    <li><a href="#services">Услуги</a></li>
+                    <li><a href="#gallery">Галерея</a></li>
+                    <li><a href="#testimonials">Отзывы</a></li>
+                    <li><a href="#booking">Запись</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Герой секция -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Профессиональный уход за вашей кожей</h1>
+                <p>Индивидуальный подход к каждому клиенту с использованием современных косметологических методик и качественных препаратов.</p>
+                <a href="#booking" class="btn">Записаться на прием</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Обо мне -->
+    <section class="about" id="about">
+        <div class="container">
+            <h2 class="text-center">Обо мне</h2>
+            <div class="about-content">
+                <div class="about-img">
+                    <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="Косметолог">
+                </div>
+                <div class="about-text">
+                    <h3>Привет, я [Ваше Имя]</h3>
+                    <p>Сертифицированный косметолог с 10-летним опытом работы. Специализируюсь на инъекционных методиках, аппаратной косметологии и уходовых процедурах.</p>
+                    <p>Регулярно повышаю квалификацию на международных конференциях и мастер-классах ведущих специалистов в области эстетической медицины.</p>
+                    <p>В своей работе использую только сертифицированные препараты и современное оборудование, что гарантирует безопасность и эффективность процедур.</p>
+                    <div style="margin-top: 30px;">
+                        <a href="#services" class="btn">Мои услуги</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Услуги -->
+    <section class="services" id="services">
+        <div class="container">
+            <h2 class="text-center">Мои услуги</h2>
+            <p class="text-center">Широкий спектр косметологических процедур для решения различных эстетических проблем</p>
+            
+            <div class="services-grid">
+                <!-- Услуга 1 -->
+                <div class="service-card">
+                    <div class="service-img">
+                        <img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="Чистка лица">
+                    </div>
+                    <div class="service-info">
+                        <h3>Чистка лица</h3>
+                        <p>Профессиональная чистка лица с индивидуальным подбором уходовых средств.</p>
+                        <div class="price">от 1500 руб.</div>
+                        <a href="#" class="btn book-btn" data-service="Чистка лица">Записаться</a>
+                    </div>
+                </div>
+                
+                <!-- Услуга 2 -->
+                <div class="service-card">
+                    <div class="service-img">
+                        <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Биоревитализация">
+                    </div>
+                    <div class="service-info">
+                        <h3>Биоревитализация</h3>
+                        <p>Инъекционная процедура для глубокого увлажнения и омоложения кожи.</p>
+                        <div class="price">от 5000 руб.</div>
+                        <a href="#" class="btn book-btn" data-service="Биоревитализация">Записаться</a>
+                    </div>
+                </div>
+                
+                <!-- Услуга 3 -->
+                <div class="service-card">
+                    <div class="service-img">
+                        <img src="https://images.unsplash.com/photo-1506863530036-1efeddceb993?ixlib=rb-1.2.1&auto=format&fit=crop&w=1349&q=80" alt="Ботокс">
+                    </div>
+                    <div class="service-info">
+                        <h3>Ботулинотерапия</h3>
+                        <p>Коррекция мимических морщин с помощью препаратов ботулотоксина.</p>
+                        <div class="price">от 8000 руб.</div>
+                        <a href="#" class="btn book-btn" data-service="Ботулинотерапия">Записаться</a>
+                    </div>
+                </div>
+                
+                <!-- Услуга 4 -->
+                <div class="service-card">
+                    <div class="service-img">
+                        <img src="https://images.unsplash.com/photo-1556228578-8c89e6adf883?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="Пилинг">
+                    </div>
+                    <div class="service-info">
+                        <h3>Химический пилинг</h3>
+                        <p>Процедура обновления кожи с помощью кислот различной концентрации.</p>
+                        <div class="price">от 3000 руб.</div>
+                        <a href="#" class="btn book-btn" data-service="Химический пилинг">Записаться</a>
+                    </div>
+                </div>
+                
+                <!-- Услуга 5 -->
+                <div class="service-card">
+                    <div class="service-img">
+                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="Контурная пластика">
+                    </div>
+                    <div class="service-info">
+                        <h3>Контурная пластика</h3>
+                        <p>Коррекция объема и формы губ, скул, подбородка с помощью филлеров.</p>
+                        <div class="price">от 7000 руб.</div>
+                        <a href="#" class="btn book-btn" data-service="Контурная пластика">Записаться</a>
+                    </div>
+                </div>
+                
+                <!-- Услуга 6 -->
+                <div class="service-card">
+                    <div class="service-img">
+                        <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="RF-лифтинг">
+                    </div>
+                    <div class="service-info">
+                        <h3>RF-лифтинг</h3>
+                        <p>Аппаратная процедура для подтяжки кожи лица и тела с помощью радиочастот.</p>
+                        <div class="price">от 3500 руб.</div>
+                        <a href="#" class="btn book-btn" data-service="RF-лифтинг">Записаться</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Галерея -->
+    <section class="gallery" id="gallery">
+        <div class="container">
+            <h2 class="text-center">Галерея работ</h2>
+            <p class="text-center">Реальные результаты моих клиентов до и после процедур</p>
+            
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="Результат 1">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1519699047748-de8e457a634e?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="Результат 2">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="Результат 3">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="Результат 4">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Отзывы -->
+    <section class="testimonials" id="testimonials">
+        <div class="container">
+            <h2 class="text-center">Отзывы клиентов</h2>
+            <p class="text-center">Что говорят мои клиенты о моей работе</p>
+            
+            <div class="testimonials-slider">
+                <!-- Отзыв 1 -->
+                <div class="testimonial active">
+                    <p class="testimonial-text">"Обратилась к специалисту с проблемой акне. После курса процедур кожа значительно улучшилась, воспаления прошли. Очень довольна результатом и профессиональным подходом!"</p>
+                    <div class="client-info">
+                        <div class="client-img">
+                            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="Анна">
+                        </div>
+                        <div>
+                            <div class="client-name">Анна, 28 лет</div>
+                            <div>Курс чистки лица</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Отзыв 2 -->
+                <div class="testimonial">
+                    <p class="testimonial-text">"Делала биоревитализацию и RF-лифтинг. Кожа стала более упругой и свежей, мелкие морщинки разгладились. Мастер очень внимательная, все объяснила и показала."</p>
+                    <div class="client-info">
+                        <div class="client-img">
+                            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="Елена">
+                        </div>
+                        <div>
+                            <div class="client-name">Елена, 35 лет</div>
+                            <div>Биоревитализация + RF-лифтинг</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Отзыв 3 -->
+                <div class="testimonial">
+                    <p class="testimonial-text">"Очень доволен результатом ботулинотерапии. Мимические морщины на лбу полностью разгладились, при этом сохранилась естественная мимика. Профессионал своего дела!"</p>
+                    <div class="client-info">
+                        <div class="client-img">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="Дмитрий">
+                        </div>
+                        <div>
+                            <div class="client-name">Дмитрий, 42 года</div>
+                            <div>Ботулинотерапия</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="slider-controls">
+                <div class="slider-dot active" data-slide="0"></div>
+                <div class="slider-dot" data-slide="1"></div>
+                <div class="slider-dot" data-slide="2"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Запись -->
+    <section class="booking" id="booking">
+        <div class="container">
+            <h2 class="text-center">Запись на прием</h2>
+            <p class="text-center">Оставьте заявку и я свяжусь с вами для уточнения деталей</p>
+            
+            <div class="booking-form">
+                <form id="appointment-form">
+                    <div class="form-group">
+                        <label for="name">Ваше имя</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Телефон</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="service">Услуга</label>
+                        <select id="service" name="service" required>
+                            <option value="">Выберите услугу</option>
+                            <option value="Чистка лица">Чистка лица</option>
+                            <option value="Биоревитализация">Биоревитализация</option>
+                            <option value="Ботулинотерапия">Ботулинотерапия</option>
+                            <option value="Химический пилинг">Химический пилинг</option>
+                            <option value="Контурная пластика">Контурная пластика</option>
+                            <option value="RF-лифтинг">RF-лифтинг</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="date">Желаемая дата</label>
+                        <input type="date" id="date" name="date" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Дополнительная информация</label>
+                        <textarea id="message" name="message"></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn" style="width: 100%;">Отправить заявку</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Подвал -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>КосметологПрофи</h3>
+                    <p>Профессиональные косметологические услуги с индивидуальным подходом к каждому клиенту.</p>
+                    <div class="social-links" style="margin-top: 15px;">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-vk"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Контакты</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt"></i> г. Москва, ул. Примерная, 123</li>
+                        <li><i class="fas fa-phone"></i> +7 (123) 456-78-90</li>
+                        <li><i class="fas fa-envelope"></i> info@cosmetologprofi.ru</li>
+                        <li><i class="fas fa-clock"></i> Пн-Пт: 10:00 - 20:00</li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Быстрые ссылки</h3>
+                    <ul class="footer-links">
+                        <li><a href="#home">Главная</a></li>
+                        <li><a href="#about">Обо мне</a></li>
+                        <li><a href="#services">Услуги</a></li>
+                        <li><a href="#gallery">Галерея</a></li>
+                        <li><a href="#testimonials">Отзывы</a></li>
+                        <li><a href="#booking">Запись</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 КосметологПрофи. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Модальное окно оплаты -->
+    <div class="modal" id="payment-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Оплата услуги</h2>
+            <p>Вы выбрали: <span id="selected-service"></span></p>
+            <p>Стоимость: <span id="service-price"></span></p>
+            
+            <div id="wayforpay-widget" style="margin: 20px 0;">
+                <!-- Здесь будет форма Wayforpay -->
+                <p>Форма оплаты будет загружена после подтверждения записи</p>
+            </div>
+            
+            <p>После оплаты с вами свяжется администратор для подтверждения записи.</p>
+        </div>
+    </div>
+
+    <!-- Скрипты -->
+    <script>
+        // Мобильное меню
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+        
+        // Плавная прокрутка
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+                
+                // Закрываем мобильное меню после клика
+                document.querySelector('.nav-links').classList.remove('active');
+            });
+        });
+        
+        // Слайдер отзывов
+        const testimonials = document.querySelectorAll('.testimonial');
+        const dots = document.querySelectorAll('.slider-dot');
+        
+        dots.forEach(dot => {
+            dot.addEventListener('click', function() {
+                const slideIndex = this.getAttribute('data-slide');
+                
+                // Скрываем все отзывы
+                testimonials.forEach(testimonial => {
+                    testimonial.classList.remove('active');
+                });
+                
+                // Убираем активный класс со всех точек
+                dots.forEach(dot => {
+                    dot.classList.remove('active');
+                });
+                
+                // Показываем выбранный отзыв
+                testimonials[slideIndex].classList.add('active');
+                this.classList.add('active');
+            });
+        });
+        
+        // Автоматическая смена слайдов
+        let currentSlide = 0;
+        setInterval(() => {
+            currentSlide = (currentSlide + 1) % testimonials.length;
+            
+            testimonials.forEach(testimonial => {
+                testimonial.classList.remove('active');
+            });
+            
+            dots.forEach(dot => {
+                dot.classList.remove('active');
+            });
+            
+            testimonials[currentSlide].classList.add('active');
+            dots[currentSlide].classList.add('active');
+        }, 5000);
+        
+        // Обработка формы записи
+        document.getElementById('appointment-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Здесь должна быть логика отправки формы на сервер
+            // Для демонстрации просто покажем модальное окно
+            alert('Ваша заявка принята! Мы свяжемся с вами в ближайшее время для подтверждения записи.');
+            this.reset();
+            
+            // В реальном проекте здесь можно открыть модальное окно с оплатой
+            // openPaymentModal();
+        });
+        
+        // Кнопки "Записаться" на карточках услуг
+        document.querySelectorAll('.book-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const service = this.getAttribute('data-service');
+                
+                // Устанавливаем выбранную услугу в форме
+                document.getElementById('service').value = service;
+                
+                // Прокручиваем к форме
+                document.getElementById('booking').scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
+        // Модальное окно оплаты
+        const modal = document.getElementById('payment-modal');
+        const closeModal = document.querySelector('.close-modal');
+        
+        function openPaymentModal(service, price) {
+            document.getElementById('selected-service').textContent = service;
+            document.getElementById('service-price').textContent = price;
+            modal.style.display = 'flex';
+        }
+        
+        closeModal.addEventListener('click', function() {
+            modal.style.display = 'none';
+        });
+        
+        window.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+        
+        // Инициализация Wayforpay
+        function init
