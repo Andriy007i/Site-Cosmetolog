@@ -434,7 +434,7 @@
 
             const paymentSettings = {
                 merchantAccount: "test_merch_n1",
-                merchantDomainName: window.location.hostname,
+                merchantDomainName: "irenacosmetolog.netlify.app",
                 orderReference: "TEST_" + Date.now(),
                 orderDate: Math.floor(Date.now() / 1000),
                 amount: amount,
@@ -460,6 +460,11 @@
 
     // Функция открытия модального окна
     function openPaymentModal(service, price) {
+        if (!window.Wayforpay) {
+    alert('Зачекайте, платіжна система завантажується...');
+    setTimeout(() => openPaymentModal(service, price), 1000);
+    return;
+  }
         document.getElementById('selected-service').textContent = service;
         document.getElementById('service-price').textContent = price;
         
