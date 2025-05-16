@@ -526,6 +526,7 @@
             }
         }
     </style>
+    <script src="https://secure.wayforpay.com/server/pay-widget.js"></script>
 </head>
 <body>
     <!-- Шапка -->
@@ -659,8 +660,8 @@
                     </div>
                     <div class="service-info">
                         <h3>RF-ліфтинг</h3>
-                        <p>Аппаратна процедура для підтяжки шкіри лиця та тіла за допомогою радіочастот.</p>
-                        <div class="price">от 3500 руб.</div>
+                        <p>Апаратна процедура для підтяжки шкіри лиця та тіла за допомогою радіочастот.</p>
+                        <div class="price">від 3500 грн.</div>
                         <a href="#" class="btn book-btn" data-service="RF-лифтинг">Записатися</a>
                     </div>
                 </div>
@@ -924,19 +925,6 @@
             dots[currentSlide].classList.add('active');
         }, 5000);
         
-        // Обработка формы записи
-        document.getElementById('appointment-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Здесь должна быть логика отправки формы на сервер
-            // Для демонстрации просто покажем модальное окно
-            alert('Ваша заявка прийнята! Ми звʼяжемося з вами найближчим часов для підтвердження запису.');
-            this.reset();
-            
-            // В реальном проекте здесь можно открыть модальное окно с оплатой
-            // openPaymentModal();
-        });
-        
         // Кнопки "Записаться" на карточках услуг
         document.querySelectorAll('.book-btn').forEach(btn => {
             btn.addEventListener('click', function(e) {
@@ -952,26 +940,89 @@
                 });
             });
         });
-        
-        // Модальное окно оплаты
-        const modal = document.getElementById('payment-modal');
-        const closeModal = document.querySelector('.close-modal');
-        
+        // Обработка формы записи с интеграцией Wayforpay
+        document.getElementById('appointment-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Получаем данные из формы
+            const formData = {
+                name: document.getElementById('name').value,
+                phone: document.getElementById('phone').value,
+                email: document.getElementById('email').value,
+                service: document.getElementById('service').value,
+                date: document.getElementById('date').value,
+                message: document.getElementById('message').value
+            };
+            
+            // Определяем цену в зависимости от услуги
+            let price;
+            switch(formData.service) {
+                case 'Чистка лица': price = 1000; break;
+                case 'Биоревитализация': price = 2000; break;
+                case 'Ботулинотерапия': price = 3000; break;
+                case 'Химический пилинг': price = 2000; break;
+                case 'Контурная пластика': price = 3500; break;
+                case 'RF-лифтинг': price = 3500; break;
+                default: price = 0;
+            }
+            
+            // Показываем модальное окно с оплатой
+            openPaymentModal(formData.service, price + ' грн.');
+            
+            // Здесь можно добавить AJAX-запрос для сохранения заявки на сервере
+            // sendAppointmentToServer(formData);
+        });
+
+        // Функция для инициализации платежа через Wayforpay
+        function initWayforpayPayment(service, price) {
+            const wayforpay = new Wayforpay();
+            
+            // Настройки платежа (замените на свои данные)
+            const paymentSettings = {
+                merchantAccount: "your_merchant_account", // Ваш мерчант аккаунт
+                merchantDomainName: "yourdomain.com", // Ваш домен
+                orderReference: "ORDER_" + Math.random().toString(36).substr(2, 9),
+                orderDate: Math.floor(Date.now() / 1000),
+                amount: price,
+                currency: "UAH", // Или другая валюта
+                productName: [service],
+                productPrice: [price],
+                productCount: [1],
+                clientFirstName: document.getElementById('name').value.split(' ')[0] || 'Client',
+                clientLastName: document.getElementById('name').value.split(' ')[1] || '',
+                clientEmail: document.getElementById('email').value || 'no-email@example.com',
+                clientPhone: document.getElementById('phone').value || '380000000000',
+                language: "ukr",
+                serviceUrl: "https://yourdomain.com/callback", // URL для callback
+                returnUrl: "https://yourdomain.com/thank-you" // URL после оплаты
+            };
+
+            // Инициализация платежа
+            wayforpay.run(paymentSettings);
+        }
+
+        // Обновляем функцию openPaymentModal
         function openPaymentModal(service, price) {
             document.getElementById('selected-service').textContent = service;
             document.getElementById('service-price').textContent = price;
             modal.style.display = 'flex';
+            
+            // Очищаем предыдущий контент виджета
+            document.getElementById('wayforpay-widget').innerHTML = '';
+            
+            // Создаем кнопку для запуска платежа
+            const payButton = document.createElement('button');
+            payButton.className = 'btn';
+            payButton.textContent = 'Оплатить сейчас';
+            payButton.style.width = '100%';
+            payButton.style.margin = '20px 0';
+            payButton.onclick = function() {
+                initWayforpayPayment(service, parseFloat(price));
+            };
+            
+            document.getElementById('wayforpay-widget').appendChild(payButton);
         }
-        
-        closeModal.addEventListener('click', function() {
-            modal.style.display = 'none';
-        });
-        
-        window.addEventListener('click', function(e) {
-            if (e.target === modal) {
-                modal.style.display = 'none';
-            }
-        });
-        
-        // Инициализация Wayforpay
-        function init
+
+    </script>
+</body>
+</html>
