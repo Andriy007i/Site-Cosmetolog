@@ -477,42 +477,35 @@
 
         // Функция для инициализации платежа через Wayforpay
         function initWayforpayPayment(service, price) {
-            try {
-        // Проверяем загружен ли Wayforpay
+    try {
+        // Проверяем, загружен ли Wayforpay
         if (typeof Wayforpay === 'undefined') {
             throw new Error('Платіжна система тимчасово недоступна');
         }
-        
-        // Получаем сумму (удаляем ' грн.')
-        const amount = parseFloat(price.replace(' грн.', ''));
-        
-        const wayforpay = new Wayforpay();
-        
+
+        // Удаляем " грн." и преобразуем в число
+        const amount = parseFloat(price.toString().replace(' грн.', ''));
+
+        // Демо-данные Wayforpay (тестовый режим)
         const paymentSettings = {
-            merchantAccount: "andriy007i_github_io", // ЗАМЕНИТЕ НА РЕАЛЬНЫЙ
-            merchantDomainName: "https://andriy007i.github.io/Site-Cosmetolog/", // ЗАМЕНИТЕ НА РЕАЛЬНЫЙ
-            merchantSignature: "your_signature", // Должен генерироваться на сервере
-            orderReference: "ORDER_" + Date.now(),
+            merchantAccount: "test_merch_n1", // Демо-мерчант
+            merchantDomainName: window.location.hostname, // Текущий домен
+            orderReference: "TEST_" + Date.now(), // Уникальный ID
             orderDate: Math.floor(Date.now() / 1000),
             amount: amount,
             currency: "UAH",
             productName: [service],
             productPrice: [amount],
             productCount: [1],
-            clientFirstName: document.getElementById('name').value.split(' ')[0] || 'Клієнт',
-            clientEmail: document.getElementById('email').value || '',
+            clientFirstName: document.getElementById('name').value.split(' ')[0] || 'Тестовий',
+            clientEmail: document.getElementById('email').value || 'test@example.com',
             clientPhone: document.getElementById('phone').value.replace(/\D/g, '') || '380000000000',
             language: "ua",
-            serviceUrl: "https://andriy007i.github.io/Site-Cosmetolog/", // ЗАМЕНИТЕ
-            returnUrl: "https://andriy007i.github.io/Site-Cosmetolog/" // ЗАМЕНИТЕ
+            serviceUrl: "https://" + window.location.hostname + "/callback", // Фиктивный URL
+            returnUrl: "https://" + window.location.hostname + "/thank-you", // Страница после оплаты
+            // Демо-подпись (не требуется в тестовом режиме)
+            merchantSignature: "demo_signature" // В реальном коде это генерируется на бэкенде
         };
-
-        wayforpay.run(paymentSettings);
-    } catch (error) {
-        console.error('Payment Error:', error);
-        alert('Помилка ініціалізації платежу: ' + error.message);
-    }
-}
 
         // Обновляем функцию openPaymentModal
         // Обновленная функция открытия модального окна
