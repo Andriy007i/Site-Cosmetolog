@@ -469,59 +469,81 @@
     }
 
     // Функция открытия модального окна
-    function openPaymentModal(service, price) {
-  const amount = parseFloat(price.toString().replace(' грн.', ''));
-  const iframe = document.createElement('iframe');
-  iframe.src = `https://secure.wayforpay.com/button/buy?merchantAccount=test_merch_n1&amount=${amount}&currency=UAH`;
-  iframe.style.width = '100%';
-  iframe.style.height = '500px';
-  document.getElementById('wayforpay-widget').innerHTML = '';
-  document.getElementById('wayforpay-widget').appendChild(iframe);
-  modal.style.display = 'flex';
-}
-    // Обработка формы записи
-    document.getElementById('appointment-form').addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const formData = {
-            name: document.getElementById('name').value,
-            phone: document.getElementById('phone').value,
-            email: document.getElementById('email').value,
-            service: document.getElementById('service').value,
-            date: document.getElementById('date').value,
-            message: document.getElementById('message').value
-        };
-
-        // Валидация
-        if (!formData.name || !formData.phone || !formData.service || !formData.date) {
-            alert('Будь ласка, заповніть обов\'язкові поля');
-            return;
-        }
-
-        // Определяем цену
-        const prices = {
-            'Чистка лиця': 1000,
-            'Біоревіталізація': 2000,
-            'Ботулінотерапія': 3000,
-            'Хімічний пілінг': 2000,
-            'Контурна пластика': 3500,
-            'RF-ліфтинг': 3500
-        };
-
-        const price = prices[formData.service] || 0;
-        
-        // Показываем модальное окно с оплатой
-        openPaymentModal(formData.service, price + ' грн.');
-        
-        // Здесь можно добавить отправку данных на сервер
-        console.log('Дані форми:', formData);
-        alert('Ваша заявка прийнята! Очікуйте дзвінка для підтвердження.');
-    });
-        function validatePhone(phone) {
-    const phoneRegex = /^(\+38|38|0)\d{9}$/;
-    return phoneRegex.test(phone.replace(/\D/g, ''));
+    // Функция открытия модального окна с оплатой
+function openPaymentModal(service, price) {
+    // Обновляем данные в модальном окне
+    document.getElementById('selected-service').textContent = service;
+    document.getElementById('service-price').textContent = price;
+    
+    const modal = document.getElementById('payment-modal');
+    modal.style.display = 'block';
+    
+    // Очищаем предыдущий iframe
+    const widget = document.getElementById('wayforpay-widget');
+    widget.innerHTML = '<div class="payment-instructions"><p>Завантаження платіжної системи...</p></div>';
+    
+    // Тестовые данные для демонстрации
+    const amount = parseFloat(price.toString().replace(' грн.', ''));
+    const iframe = document.createElement('iframe');
+    iframe.src = `https://secure.wayforpay.com/button/buy?merchantAccount=test_merch_n1&amount=${amount}&currency=UAH`;
+    iframe.style.width = '100%';
+    iframe.style.height = '500px';
+    iframe.style.border = 'none';
+    
+    // Добавляем iframe после небольшой задержки
+    setTimeout(() => {
+        widget.innerHTML = '';
+        widget.appendChild(iframe);
+    }, 500);
 }
 
+// Обновленный обработчик формы
+async function handleSubmit(event) {
+    event.preventDefault();
+
+    // Валидация телефона
+    const phoneInput = document.querySelector('input[name="Телефон"]');
+    if (!validatePhone(phoneInput.value)) {
+        alert('Будь ласка, введіть коректний номер телефону у форматі +380XXXXXXXXX або 0XXXXXXXXX');
+        return;
+    }
+    
+    if (!validateTime()) return;
+    
+    const form = event.target;
+    const formData = new FormData(form);
+    
+    // Получаем выбранную услугу и цену
+    const service = document.getElementById('service').value;
+    const prices = {
+        'Чистка лиця': 1000,
+        'Біоревіталізація': 2000,
+        'Ботулінотерапія': 3000,
+        'Хімічний пілінг': 2000,
+        'Контурна пластика': 3500,
+        'RF-ліфтинг': 3500
+    };
+    const price = prices[service] || 0;
+
+    try {
+        // Показываем модальное окно с правильными данными
+        openPaymentModal(service, price + ' грн.');
+        
+        // Отправляем данные формы
+        await sendFormData(formData);
+        
+        // Показываем сообщение об успехе
+        document.getElementById('success-message').style.display = 'block';
+        document.getElementById('success-message').scrollIntoView({ behavior: 'smooth' });
+        
+        // Очищаем форму
+        form.reset();
+        setMinDate();
+        
+    } catch (error) {
+        alert('Сталася помилка при відправці форми. Будь ласка, спробуйте ще раз.');
+    }
+}
 // Функция отправки данных формы
 async function sendFormData(formData) {
     try {
