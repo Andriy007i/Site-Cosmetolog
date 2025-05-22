@@ -1,28 +1,657 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="uk">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Професійна косметологія | Ірена</title>
+    <title>Косметичні препарати | BeautyPro</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+    <style>
+        :root {
+            --primary-color: #9d65c9;
+            --secondary-color: #7c4dff;
+            --dark-color: #333;
+            --light-color: #f4f4f4;
+            --white-color: #fff;
+            --success-color: #28a745;
+            --danger-color: #dc3545;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark-color);
+            background-color: var(--white-color);
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Header */
+        header {
+            background-color: var(--white-color);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--dark-color);
+            text-decoration: none;
+        }
+        
+        .logo span {
+            color: var(--primary-color);
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 30px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark-color);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--dark-color);
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: var(--white-color);
+            padding: 180px 0 100px;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        
+        .hero p {
+            font-size: 20px;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+        
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: var(--white-color);
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--primary-color);
+            color: var(--white-color);
+        }
+        
+        /* Sections */
+        section {
+            padding: 80px 0;
+        }
+        
+        .text-center {
+            text-align: center;
+        }
+        
+        h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: var(--dark-color);
+        }
+        
+        h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: var(--dark-color);
+        }
+        
+        p {
+            margin-bottom: 15px;
+        }
+        
+        /* About Section */
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+            margin-top: 40px;
+        }
+        
+        .about-img {
+            flex: 1;
+        }
+        
+        .about-img img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .about-text {
+            flex: 1;
+        }
+        
+        /* Products Section */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .product-card {
+            background-color: var(--white-color);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .product-img {
+            height: 250px;
+            overflow: hidden;
+        }
+        
+        .product-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .product-card:hover .product-img img {
+            transform: scale(1.1);
+        }
+        
+        .product-info {
+            padding: 20px;
+        }
+        
+        .price {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin: 15px 0;
+        }
+        
+        .category {
+            display: inline-block;
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+        
+        /* Testimonials */
+        .testimonials-slider {
+            max-width: 800px;
+            margin: 40px auto 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .testimonial {
+            display: none;
+            padding: 30px;
+            background-color: var(--white-color);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .testimonial.active {
+            display: block;
+        }
+        
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 20px;
+            position: relative;
+            padding-left: 30px;
+        }
+        
+        .testimonial-text::before {
+            content: '"';
+            font-size: 60px;
+            position: absolute;
+            left: -15px;
+            top: -20px;
+            color: var(--primary-color);
+            opacity: 0.3;
+        }
+        
+        .client-info {
+            display: flex;
+            align-items: center;
+        }
+        
+        .client-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 15px;
+        }
+        
+        .client-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .client-name {
+            font-weight: 700;
+        }
+        
+        .slider-controls {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .slider-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #ccc;
+            margin: 0 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .slider-dot.active {
+            background-color: var(--primary-color);
+        }
+        
+        /* Consultation Form */
+        .consultation-form {
+            max-width: 600px;
+            margin: 40px auto 0;
+            background-color: var(--white-color);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        input, textarea, select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: inherit;
+            font-size: 16px;
+        }
+        
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        /* Admin Panel */
+        .admin-panel {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 40px;
+        }
+        
+        .admin-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .admin-form .form-group.full-width {
+            grid-column: span 2;
+        }
+        
+        .admin-products {
+            margin-top: 40px;
+        }
+        
+        .admin-products table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .admin-products th, .admin-products td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .admin-products th {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .admin-products tr:hover {
+            background-color: #f1f1f1;
+        }
+        
+        .action-btn {
+            padding: 5px 10px;
+            margin-right: 5px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        
+        .edit-btn {
+            background-color: #ffc107;
+            color: #212529;
+        }
+        
+        .delete-btn {
+            background-color: #dc3545;
+            color: white;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: #2c3e50;
+            color: var(--white-color);
+            padding: 60px 0 0;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column h3 {
+            color: var(--white-color);
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #bdc3c7;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--white-color);
+        }
+        
+        .footer-links i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: var(--white-color);
+            transition: all 0.3s;
+        }
+        
+        .social-links a:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding: 20px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 14px;
+            color: #bdc3c7;
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            overflow-y: auto;
+        }
+        
+        .modal-content {
+            background-color: var(--white-color);
+            margin: 50px auto;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 600px;
+            position: relative;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--dark-color);
+        }
+        
+        .payment-instructions {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        
+        .payment-instructions p {
+            margin-bottom: 10px;
+        }
+        
+        .payment-instructions strong {
+            color: var(--primary-color);
+        }
+        
+        /* Success Message */
+        #success-message {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            background: #d4edda;
+            color: #155724;
+            border-radius: 5px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .about-content {
+                flex-direction: column;
+            }
+            
+            .about-img, .about-text {
+                flex: none;
+                width: 100%;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 80px);
+                background-color: var(--white-color);
+                flex-direction: column;
+                align-items: center;
+                padding-top: 30px;
+                transition: left 0.3s;
+            }
+            
+            .nav-links.active {
+                left: 0;
+            }
+            
+            .nav-links li {
+                margin: 15px 0;
+            }
+            
+            .hero h1 {
+                font-size: 36px;
+            }
+            
+            .hero p {
+                font-size: 18px;
+            }
+            
+            h2 {
+                font-size: 30px;
+            }
+            
+            .admin-form {
+                grid-template-columns: 1fr;
+            }
+            
+            .admin-form .form-group.full-width {
+                grid-column: span 1;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            section {
+                padding: 60px 0;
+            }
+            
+            .hero {
+                padding: 150px 0 80px;
+            }
+            
+            .hero h1 {
+                font-size: 28px;
+            }
+            
+            .hero p {
+                font-size: 16px;
+            }
+            
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Шапка -->
     <header>
         <div class="container">
             <nav>
-                <a href="#" class="logo">Косметолог<span>Профі</span></a>
+                <a href="#" class="logo">Beauty<span>Pro</span></a>
                 <button class="mobile-menu-btn">
                     <i class="fas fa-bars"></i>
                 </button>
                 <ul class="nav-links">
                     <li><a href="#home">Головна</a></li>
-                    <li><a href="#about">Про мене</a></li>
-                    <li><a href="#services">Послуги</a></li>
-                    <li><a href="#gallery">Галерея</a></li>
+                    <li><a href="#about">Про нас</a></li>
+                    <li><a href="#products">Продукція</a></li>
                     <li><a href="#testimonials">Відгуки</a></li>
-                    <li><a href="#booking">Запис</a></li>
+                    <li><a href="#consultation">Консультація</a></li>
+                    <li><a href="#admin">Адмінка</a></li>
                 </ul>
             </nav>
         </div>
@@ -32,141 +661,42 @@
     <section class="hero" id="home">
         <div class="container">
             <div class="hero-content">
-                <h1>Професійний догляд за вашою шкірою</h1>
-                <p>Індивідуальний підхід до кожного клієнта з використанням сучасних косметичних методик та якісних препаратів.</p>
-                <a href="#booking" class="btn">Записатися на прийом</a>
+                <h1>Професійна косметика для догляду за шкірою</h1>
+                <p>Високоякісні препарати від провідних світових виробників з гарантією результату та безпеки.</p>
+                <a href="#products" class="btn">Переглянути каталог</a>
             </div>
         </div>
     </section>
 
-    <!-- Обо мне -->
+    <!-- О нас -->
     <section class="about" id="about">
         <div class="container">
-            <h2 class="text-center">Про мене</h2>
+            <h2 class="text-center">Про нашу продукцію</h2>
             <div class="about-content">
                 <div class="about-img">
-                    <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="Косметолог">
+                    <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Косметика">
                 </div>
                 <div class="about-text">
-                    <h3>Привіт, я Ірена</h3>
-                    <p>Сертифікований косметолог з 10-річним стажем праці. Спеціалізуюсь на інʼєкційних методиках, аппаратній косметології та доглядових процедурах.</p>
-                    <p>Регулярно повищую кваліфікацію на міжнародних конференціях і майстер-класах ведучих спеціалістів в області естетичної медицини.</p>
-                    <p>У своїй роботі використовую тільки сертифіковані препарати й сучасне обладнання, що гарантує безпеку и ефективність процедур.</p>
+                    <h3>Чому варто обрати нашу косметику?</h3>
+                    <p>Ми пропонуємо тільки сертифіковані косметичні препарати від перевірених виробників з Європи та США. Кожен продукт пройшов клінічні випробування та має всі необхідні документи.</p>
+                    <p>У нашому асортименті тільки оригінальна продукція без додавання шкідливих компонентів. Ми не продаємо підробки та не працюємо з сумнівними постачальниками.</p>
+                    <p>Для кожного клієнта ми пропонуємо професійну консультацію щодо вибору препаратів та їх застосування. Наші спеціалісти мають медичну освіту та великий досвід роботи.</p>
                     <div style="margin-top: 30px;">
-                        <a href="#services" class="btn">Мої послуги</a>
+                        <a href="#products" class="btn">Переглянути асортимент</a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Услуги -->
-    <section class="services" id="services">
+    <!-- Продукция -->
+    <section class="products" id="products">
         <div class="container">
-            <h2 class="text-center">Мої послуги</h2>
-            <p class="text-center">Широкий спектр косметологічних процедур для вирішения різноманітних естетичних проблем</p>
+            <h2 class="text-center">Наша продукція</h2>
+            <p class="text-center">Широкий вибір професійної косметики для домашнього та салонного використання</p>
             
-            <div class="services-grid">
-                <!-- Услуга 1 -->
-                <div class="service-card">
-                    <div class="service-img">
-                        <img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="Чистка лиця">
-                    </div>
-                    <div class="service-info">
-                        <h3>Чистка лиця</h3>
-                        <p>Професійна чистка лиця з індивідуальним підбором доглядових засобів.</p>
-                        <div class="price">від 1000 грн.</div>
-                        <a href="#" class="btn book-btn" data-service="Чистка лиця">Записатися</a>
-                    </div>
-                </div>
-                
-                <!-- Услуга 2 -->
-                <div class="service-card">
-                    <div class="service-img">
-                        <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Біоревіталізація">
-                    </div>
-                    <div class="service-info">
-                        <h3>Біоревіталізація</h3>
-                        <p>Інʼєкційна процедура для глубокого зволоження и омолодження шкіри.</p>
-                        <div class="price">від 2000 грн.</div>
-                        <a href="#" class="btn book-btn" data-service="Біоревіталізація">Записатися</a>
-                    </div>
-                </div>
-                
-                <!-- Услуга 3 -->
-                <div class="service-card">
-                    <div class="service-img">
-                        <img src="https://images.unsplash.com/photo-1506863530036-1efeddceb993?ixlib=rb-1.2.1&auto=format&fit=crop&w=1349&q=80" alt="Ботокс">
-                    </div>
-                    <div class="service-info">
-                        <h3>Ботулінотерапія</h3>
-                        <p>Корекція мімічних зморшок за допомогою препаратів ботулотоксина.</p>
-                        <div class="price">від 3000 грн.</div>
-                        <a href="#" class="btn book-btn" data-service="Ботулінотерапія">Записатися</a>
-                    </div>
-                </div>
-                
-                <!-- Услуга 4 -->
-                <div class="service-card">
-                    <div class="service-img">
-                        <img src="https://images.unsplash.com/photo-1556228578-8c89e6adf883?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="Пилинг">
-                    </div>
-                    <div class="service-info">
-                        <h3>Хімічний пілінг</h3>
-                        <p>Процедура оновлення шкіри за допомогою кислот різної концентрації.</p>
-                        <div class="price">від 2000 грн.</div>
-                        <a href="#" class="btn book-btn" data-service="Хімічний пілінг">Записатися</a>
-                    </div>
-                </div>
-                
-                <!-- Услуга 5 -->
-                <div class="service-card">
-                    <div class="service-img">
-                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="Контурная пластика">
-                    </div>
-                    <div class="service-info">
-                        <h3>Контурна пластика</h3>
-                        <p>Корекція обʼєму та форми губ, скулів, підборіддя за допомогою філлерів.</p>
-                        <div class="price">від 3500 грн.</div>
-                        <a href="#" class="btn book-btn" data-service="Контурна пластика">Записатися</a>
-                    </div>
-                </div>
-                
-                <!-- Услуга 6 -->
-                <div class="service-card">
-                    <div class="service-img">
-                        <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="RF-лифтинг">
-                    </div>
-                    <div class="service-info">
-                        <h3>RF-ліфтинг</h3>
-                        <p>Апаратна процедура для підтяжки шкіри лиця та тіла за допомогою радіочастот.</p>
-                        <div class="price">від 3500 грн.</div>
-                        <a href="#" class="btn book-btn" data-service="RF-ліфтинг">Записатися</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Галерея -->
-    <section class="gallery" id="gallery">
-        <div class="container">
-            <h2 class="text-center">Галерея робіт</h2>
-            <p class="text-center">Реальні результати моїх клієнтів до та післе процедур</p>
-            
-            <div class="gallery-grid">
-                <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="Результат 1">
-                </div>
-                <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1519699047748-de8e457a634e?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="Результат 2">
-                </div>
-                <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="Результат 3">
-                </div>
-                <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="Результат 4">
-                </div>
+            <div class="products-grid" id="products-container">
+                <!-- Продукты будут добавляться через JavaScript -->
             </div>
         </div>
     </section>
@@ -175,47 +705,47 @@
     <section class="testimonials" id="testimonials">
         <div class="container">
             <h2 class="text-center">Відгуки клієнтів</h2>
-            <p class="text-center">Що кажуть мої клієнти про мою працю</p>
+            <p class="text-center">Що кажуть наші клієнти про якість продукції</p>
             
             <div class="testimonials-slider">
                 <!-- Отзыв 1 -->
                 <div class="testimonial active">
-                    <p class="testimonial-text">"Звернулася до спеціаліста з проблемой акне. Післе курса процедур шкіра значно покращилась, запалення пройшли. Дуже задоволена результатом та професійним підходом!"</p>
+                    <p class="testimonial-text">"Замовила набір для догляду за обличчям. Якість продуктів на висоті, шкіра стала набагато кращою вже через тиждень використання. Особливо сподобався крем для обличчя - дуже ніжний і добре зволожує."</p>
                     <div class="client-info">
                         <div class="client-img">
                             <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="Анна">
                         </div>
                         <div>
                             <div class="client-name">Ганна, 28 років</div>
-                            <div>Курс чистки лиця</div>
+                            <div>Набір для догляду за обличчям</div>
                         </div>
                     </div>
                 </div>
                 
                 <!-- Отзыв 2 -->
                 <div class="testimonial">
-                    <p class="testimonial-text">"Робила біоревіталізацію й RF-ліфтинг. Шкіра стала більш пружньою та свіжою, маленькі зморшки розгладилися. Майстер дуже уважна, все пояснила та показала."</p>
+                    <p class="testimonial-text">"Купила серум з вітаміном С для освітлення пігментних плям. Результат помітний вже через 2 тижні регулярного використання. Плями стали світлішими, тон обличчя вирівнявся. Дуже задоволена покупкою!"</p>
                     <div class="client-info">
                         <div class="client-img">
                             <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="Елена">
                         </div>
                         <div>
                             <div class="client-name">Олена, 35 років</div>
-                            <div>Біоревіталізація + RF-ліфтинг</div>
+                            <div>Серум з вітаміном С</div>
                         </div>
                     </div>
                 </div>
                 
                 <!-- Отзыв 3 -->
                 <div class="testimonial">
-                    <p class="testimonial-text">"Дуже задоволений результатом ботулінотерапії. Мімічні зморшки на лобі повністю разгладилися, при цьому зберіглася природня міміка. Професіонал своєї справи!"</p>
+                    <p class="testimonial-text">"Замовляв гель для вмивання для проблемної шкіри. Використовую вже місяць - запальні елементи з'являються значно рідше, шкіра стала чистішою і менш жирною. Відмінний продукт за розумні гроші."</p>
                     <div class="client-info">
                         <div class="client-img">
                             <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="Дмитрий">
                         </div>
                         <div>
-                            <div class="client-name">Дмитро, 42 роки</div>
-                            <div>Ботулінотерапія</div>
+                            <div class="client-name">Дмитро, 22 роки</div>
+                            <div>Гель для вмивання</div>
                         </div>
                     </div>
                 </div>
@@ -229,64 +759,120 @@
         </div>
     </section>
 
-    <!-- Запись -->
-    <section class="booking" id="booking">
+    <!-- Консультация -->
+    <section class="consultation" id="consultation">
         <div class="container">
-            <h2 class="text-center">Запис на прийом</h2>
-            <p class="text-center">Залиште заявку та я звʼяжусь з вами для уточнення деталей</p>
+            <h2 class="text-center">Платна консультація</h2>
+            <p class="text-center">Отримайте професійну консультацію щодо підбору косметичних засобів</p>
             
-            <div class="booking-form">
-                <form id="appointment-form">
-    <!-- Добавьте скрытые поля для Formsubmit -->
-    <input type="hidden" name="_captcha" value="false">
-    <input type="hidden" name="_subject" value="Нова заявка з сайту КосметологПрофі">
-    <input type="hidden" name="_template" value="table">
-    <input type="hidden" name="_next" value="thank-you.html">
-    
-    <div class="form-group">
-        <label for="name">Ваше імʼя</label>
-        <input type="text" id="name" name="Ім'я" required>
-    </div>
-    
-    <div class="form-group">
-        <label for="phone">Номер телефону</label>
-        <input type="tel" id="phone" name="Телефон" required>
-    </div>
+            <div class="consultation-form">
+                <form id="consultation-form">
+                    <input type="hidden" name="_captcha" value="false">
+                    <input type="hidden" name="_subject" value="Нова заявка на консультацію з сайту BeautyPro">
+                    <input type="hidden" name="_template" value="table">
+                    <input type="hidden" name="_next" value="thank-you.html">
+                    
                     <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" name="email">
+                        <label for="consult-name">Ваше імʼя</label>
+                        <input type="text" id="consult-name" name="Ім'я" required>
                     </div>
+                    
                     <div class="form-group">
-                        <label for="service">Послуга</label>
-                        <select id="service" name="service" required>
-                            <option value="">Виберіть послугу</option>
-                            <option value="Чистка лиця">Чистка лиця</option>
-                            <option value="Біоревіталізація">Біоревіталізація</option>
-                            <option value="Ботулінотерапія">Ботулінотерапія</option>
-                            <option value="Хімічний пилинг">Хімічний пілінг</option>
-                            <option value="Контурна пластика">Контурна пластика</option>
-                            <option value="RF-ліфтинг">RF-ліфтинг</option>
+                        <label for="consult-phone">Номер телефону</label>
+                        <input type="tel" id="consult-phone" name="Телефон" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="consult-email">Email</label>
+                        <input type="email" id="consult-email" name="Email">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="consult-question">Ваше питання або опис проблеми</label>
+                        <textarea id="consult-question" name="Питання" required></textarea>
+                    </div>
+                    
+                    <div id="success-message" style="display: none;">
+                        Дякуємо! Ваша заявка прийнята. Ми зв'яжемося з вами найближчим часом.
+                    </div>
+                    
+                    <button type="submit" class="btn" style="width: 100%;">Замовити консультацію (500 грн)</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Админка -->
+    <section class="admin" id="admin">
+        <div class="container">
+            <h2 class="text-center">Адмін панель</h2>
+            <p class="text-center">Додавання та редагування товарів</p>
+            
+            <div class="admin-panel">
+                <h3>Додати новий продукт</h3>
+                <form id="admin-form" class="admin-form">
+                    <div class="form-group">
+                        <label for="product-name">Назва продукту</label>
+                        <input type="text" id="product-name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="product-category">Категорія</label>
+                        <select id="product-category" required>
+                            <option value="">Виберіть категорію</option>
+                            <option value="Догляд за обличчям">Догляд за обличчям</option>
+                            <option value="Догляд за тілом">Догляд за тілом</option>
+                            <option value="Догляд за волоссям">Догляд за волоссям</option>
+                            <option value="Професійна косметика">Професійна косметика</option>
                         </select>
                     </div>
+                    
                     <div class="form-group">
-                        <label for="date">Бажана дата</label>
-                        <input type="date" id="date" name="date" required>
+                        <label for="product-price">Ціна (грн)</label>
+                        <input type="number" id="product-price" min="0" step="0.01" required>
                     </div>
                     
                     <div class="form-group">
-                        <label for="message">Додаткова інформація</label>
-                        <textarea id="message" name="message"></textarea>
+                        <label for="product-image">URL зображення</label>
+                        <input type="url" id="product-image" required>
                     </div>
-                    <div id="success-message" style="display: none; margin-top: 20px; padding: 15px; background: #d4edda; color: #155724; border-radius: 5px;">
-    Дякуємо! Ваша заявка прийнята. Ми зв'яжемося з вами найближчим часом.
-</div>
                     
+                    <div class="form-group full-width">
+                        <label for="product-description">Опис продукту</label>
+                        <textarea id="product-description" required></textarea>
+                    </div>
                     
-                    <button type="submit" class="btn" style="width: 100%;">Відправити заявку</button>
+                    <input type="hidden" id="product-id">
                     
-    
-    <!-- Остальные поля формы -->
-</form>
+                    <div class="form-group">
+                        <button type="submit" id="add-product-btn" class="btn">Додати продукт</button>
+                    </div>
+                    
+                    <div class="form-group">
+                        <button type="button" id="update-product-btn" class="btn" style="display: none;">Оновити продукт</button>
+                    </div>
+                    
+                    <div class="form-group">
+                        <button type="button" id="cancel-edit-btn" class="btn btn-outline" style="display: none;">Скасувати</button>
+                    </div>
+                </form>
+                
+                <div class="admin-products">
+                    <h3>Список продуктів</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Назва</th>
+                                <th>Категорія</th>
+                                <th>Ціна</th>
+                                <th>Дії</th>
+                            </tr>
+                        </thead>
+                        <tbody id="products-table">
+                            <!-- Продукты будут добавляться через JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </section>
@@ -296,8 +882,8 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-column">
-                    <h3>КосметологПрофі</h3>
-                    <p>Професійні косметологічні послуги з індивідуальним підходом до кожного клієнта.</p>
+                    <h3>BeautyPro</h3>
+                    <p>Професійна косметика для догляду за шкірою з гарантією якості та безпеки.</p>
                     <div class="social-links" style="margin-top: 15px;">
                         <a href="#"><i class="fab fa-instagram"></i></a>
                         <a href="#"><i class="fab fa-facebook-f"></i></a>
@@ -309,9 +895,9 @@
                 <div class="footer-column">
                     <h3>Контакти</h3>
                     <ul class="footer-links">
-                        <li><i class="fas fa-map-marker-alt"></i> м.Харків, Юбілейний пр. , 123</li>
+                        <li><i class="fas fa-map-marker-alt"></i> м.Київ, вул. Хрещатик, 123</li>
                         <li><i class="fas fa-phone"></i> +38 (123) 456-78-90</li>
-                        <li><i class="fas fa-envelope"></i> cosmetologprofі@gmail.com</li>
+                        <li><i class="fas fa-envelope"></i> info@beautypro.com</li>
                         <li><i class="fas fa-clock"></i> Пн-Пт: 10:00 - 20:00</li>
                     </ul>
                 </div>
@@ -320,214 +906,73 @@
                     <h3>Швидкі посилання</h3>
                     <ul class="footer-links">
                         <li><a href="#home">Головна</a></li>
-                        <li><a href="#about">Про мене</a></li>
-                        <li><a href="#services">Послуги</a></li>
-                        <li><a href="#gallery">Галерея</a></li>
+                        <li><a href="#about">Про нас</a></li>
+                        <li><a href="#products">Продукція</a></li>
                         <li><a href="#testimonials">Відгуки</a></li>
-                        <li><a href="#booking">Запис</a></li>
+                        <li><a href="#consultation">Консультація</a></li>
                     </ul>
                 </div>
             </div>
             
             <div class="copyright">
-                <p>&copy; 2025 КосметологПрофі. Всі права захищені.</p>
+                <p>&copy; 2025 BeautyPro. Всі права захищені.</p>
             </div>
         </div>
     </footer>
 
     <!-- Модальное окно оплаты -->
-<div class="modal" id="payment-modal">
-    <div class="modal-content">
-        <span class="close-modal">&times;</span>
-        <h2>Оплата послуги</h2>
-        <p>Ви обрали: <span id="selected-service"></span></p>
-        <p>Вартість: <span id="service-price"></span></p>
-        <div id="wayforpay-widget" style="margin:20px 0;"></div>
+    <div class="modal" id="payment-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Оплата консультації</h2>
+            <p>Ви оформлюєте платну консультацію з косметологом.</p>
+            <p>Вартість: <strong>500 грн</strong></p>
+            <div class="payment-instructions">
+                <p><strong>Тестовий режим оплати:</strong></p>
+                <p>Номер картки: <strong>4444555566661111</strong></p>
+                <p>Термін: <strong>12/25</strong></p>
+                <p>CVV: <strong>111</strong></p>
+                <p>Гроші не списуватимуться</p>
+            </div>
+            <div id="wayforpay-widget" style="margin: 20px 0;">
+                <iframe src="https://secure.wayforpay.com/button/buy?merchantAccount=test_merch_n1&amount=500&currency=UAH" 
+                        style="width:100%; height:400px; border:none;"></iframe>
+            </div>
+        </div>
     </div>
-    <div id="wayforpay-widget" style="margin: 20px 0;">
-                <div class="payment-instructions">
-                <p>Для завершення оплати:</p>
-                <ol>
-                    <li>Натисніть кнопку "Оплатити"</li>
-                    <li>Заповніть дані картки у відкритому вікні</li>
-                    <li>Очікуйте підтвердження на email</li>
-                </ol>
-    </div>
-</div>
 
     <!-- Скрипты -->
     <script>
-// Загрузка Wayforpay
-function loadWayforpay() {
-    const script = document.createElement('script');
-    script.src = 'https://secure.wayforpay.com/server/pay-widget.js';
-    script.onload = () => console.log('Wayforpay loaded');
-    script.onerror = () => console.error('Wayforpay load failed');
-    document.body.appendChild(script);
-}
-
-// Функция валидации телефона
-function validatePhone(phone) {
-    const phoneRegex = /^(\+38|38|0)\d{9}$/;
-    return phoneRegex.test(phone.replace(/\D/g, ''));
-}
-
-// Функция открытия модального окна с оплатой
-function openPaymentModal(service, price) {
-    document.getElementById('selected-service').textContent = service;
-    document.getElementById('service-price').textContent = price;
-    
-    const modal = document.getElementById('payment-modal');
-    modal.style.display = 'block';
-    
-    const widget = document.getElementById('wayforpay-widget');
-    widget.innerHTML = `
-        <div class="payment-instructions">
-            <p><strong>Тестовий режим оплати:</strong></p>
-            <p>Номер картки: <strong>4444555566661111</strong></p>
-            <p>Термін: <strong>12/25</strong></p>
-            <p>CVV: <strong>111</strong></p>
-            <p>Гроші не списуватимуться</p>
-        </div>
-        <iframe src="https://secure.wayforpay.com/button/buy?merchantAccount=test_merch_n1&amount=${parseFloat(price)}&currency=UAH" 
-                style="width:100%; height:400px; border:none;"></iframe>
-    `;
-}
-
-// Функция отправки данных формы
-async function sendFormData(formData) {
-    try {
-        const response = await fetch('https://formsubmit.co/ajax/zubandrey2007@gmail.com', {
-            method: 'POST',
-            headers: { 
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
+        // Массив продуктов
+        let products = [
+            {
+                id: 1,
+                name: "Серум з вітаміном С 20%",
+                category: "Догляд за обличчям",
+                price: 1200,
+                image: "https://images.unsplash.com/photo-1556228578-8c89e6adf883?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80",
+                description: "Потужний антиоксидантний серум для освітлення пігментних плям, вирівнювання тону шкіри та стимуляції вироблення колагену. Ідеально підходить для всіх типів шкіри."
             },
-            body: JSON.stringify(Object.fromEntries(formData))
-        });
-        
-        if (response.ok) {
-            return await response.json();
-        }
-        throw new Error('Network response was not ok');
-    } catch (error) {
-        console.error('Error:', error);
-        throw error;
-    }
-}
-
-// Основной обработчик формы
-async function handleSubmit(event) {
-    event.preventDefault();
-
-    // Валидация телефона
-    const phoneInput = document.getElementById('phone');
-    if (!validatePhone(phoneInput.value)) {
-        alert('Будь ласка, введіть коректний номер телефону у форматі +380XXXXXXXXX або 0XXXXXXXXX');
-        return;
-    }
-
-    const form = event.target;
-    const formData = new FormData(form);
-    formData.append('_captcha', 'false');
-    formData.append('_subject', 'Нова заявка з сайту КосметологПрофі');
-    
-    const prices = {
-        'Чистка лиця': 1000,
-        'Біоревіталізація': 2000,
-        'Ботулінотерапія': 3000,
-        'Хімічний пілінг': 2000,
-        'Контурна пластика': 3500,
-        'RF-ліфтинг': 3500
-    };
-    const service = document.getElementById('service').value;
-    const price = prices[service] || 0;
-    
-    try {
-        const submitBtn = form.querySelector('button[type="submit"]');
-        submitBtn.disabled = true;
-        submitBtn.textContent = 'Відправка...';
-        
-        openPaymentModal(service, price + ' грн.');
-        await sendFormData(formData);
-        
-        alert('Дякуємо! Ваша заявка прийнята. Ми зв\'яжемося з вами.');
-        form.reset();
-        
-    } catch (error) {
-        alert('Помилка при відправці форми. Спробуйте ще раз.');
-    } finally {
-        const submitBtn = form.querySelector('button[type="submit"]');
-        if (submitBtn) {
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'Відправити заявку';
-        }
-    }
-}
-
-// Инициализация при загрузке страницы
-document.addEventListener('DOMContentLoaded', function() {
-    loadWayforpay();
-    
-    // Мобильное меню
-    document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
-        document.querySelector('.nav-links').classList.toggle('active');
-    });
-
-    // Модальное окно
-    const modal = document.getElementById('payment-modal');
-    document.querySelector('.close-modal').addEventListener('click', function() {
-        modal.style.display = 'none';
-    });
-    window.addEventListener('click', function(e) {
-        if (e.target === modal) modal.style.display = 'none';
-    });
-
-    // Плавная прокрутка
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            e.preventDefault();
-            document.querySelector(this.getAttribute('href')).scrollIntoView({
-                behavior: 'smooth'
-            });
-            document.querySelector('.nav-links').classList.remove('active');
-        });
-    });
-
-    // Слайдер отзывов
-    const testimonials = document.querySelectorAll('.testimonial');
-    const dots = document.querySelectorAll('.slider-dot');
-    dots.forEach(dot => {
-        dot.addEventListener('click', function() {
-            const slideIndex = this.getAttribute('data-slide');
-            testimonials.forEach(t => t.classList.remove('active'));
-            dots.forEach(d => d.classList.remove('active'));
-            testimonials[slideIndex].classList.add('active');
-            this.classList.add('active');
-        });
-    });
-    let currentSlide = 0;
-    setInterval(() => {
-        currentSlide = (currentSlide + 1) % testimonials.length;
-        testimonials.forEach(t => t.classList.remove('active'));
-        dots.forEach(d => d.classList.remove('active'));
-        testimonials[currentSlide].classList.add('active');
-        dots[currentSlide].classList.add('active');
-    }, 5000);
-
-    // Кнопки "Записаться" на услугах
-    document.querySelectorAll('.book-btn').forEach(btn => {
-        btn.addEventListener('click', function(e) {
-            e.preventDefault();
-            document.getElementById('service').value = this.getAttribute('data-service');
-            document.getElementById('booking').scrollIntoView({ behavior: 'smooth' });
-        });
-    });
-
-    // Форма записи
-    const form = document.getElementById('appointment-form');
-    if (form) form.addEventListener('submit', handleSubmit);
-});
-</script>
-</body>
-</html>
+            {
+                id: 2,
+                name: "Гіалуроновий крем для обличчя",
+                category: "Догляд за обличчям",
+                price: 850,
+                image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80",
+                description: "Інтенсивно зволожує, заповнює дрібні зморшки та надає шкірі здорового вигляду. Містить три види гіалуронової кислоти різної молекулярної маси."
+            },
+            {
+                id: 3,
+                name: "Гель для вмивання для проблемної шкіри",
+                category: "Догляд за обличчям",
+                price: 650,
+                image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80",
+                description: "М'яко очищує, регулює роботу сальних залоз та запобігає виникненню запальних елементів. Не пересишує шкіру."
+            },
+            {
+                id: 4,
+                name: "Крем для тіла з вітаміном Е",
+                category: "Догляд за тілом",
+                price: 750,
+                image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80",
+                description: "Інтенсивно поживлює та захищає шкіру тіла, запобігає сухості та
