@@ -657,7 +657,7 @@
         </div>
     </header>
 
-    <!-- Герой секция -->
+    <!-- Герой секція -->
     <section class="hero" id="home">
         <div class="container">
             <div class="hero-content">
@@ -668,7 +668,7 @@
         </div>
     </section>
 
-    <!-- О нас -->
+    <!-- Про нас -->
     <section class="about" id="about">
         <div class="container">
             <h2 class="text-center">Про нашу продукцію</h2>
@@ -689,26 +689,26 @@
         </div>
     </section>
 
-    <!-- Продукция -->
+    <!-- Продукція -->
     <section class="products" id="products">
         <div class="container">
             <h2 class="text-center">Наша продукція</h2>
             <p class="text-center">Широкий вибір професійної косметики для домашнього та салонного використання</p>
             
             <div class="products-grid" id="products-container">
-                <!-- Продукты будут добавляться через JavaScript -->
+                <!-- Продукти будуть додаватися через JavaScript -->
             </div>
         </div>
     </section>
 
-    <!-- Отзывы -->
+    <!-- Відгуки -->
     <section class="testimonials" id="testimonials">
         <div class="container">
             <h2 class="text-center">Відгуки клієнтів</h2>
             <p class="text-center">Що кажуть наші клієнти про якість продукції</p>
             
             <div class="testimonials-slider">
-                <!-- Отзыв 1 -->
+                <!-- Відгук 1 -->
                 <div class="testimonial active">
                     <p class="testimonial-text">"Замовила набір для догляду за обличчям. Якість продуктів на висоті, шкіра стала набагато кращою вже через тиждень використання. Особливо сподобався крем для обличчя - дуже ніжний і добре зволожує."</p>
                     <div class="client-info">
@@ -722,7 +722,7 @@
                     </div>
                 </div>
                 
-                <!-- Отзыв 2 -->
+                <!-- Відгук 2 -->
                 <div class="testimonial">
                     <p class="testimonial-text">"Купила серум з вітаміном С для освітлення пігментних плям. Результат помітний вже через 2 тижні регулярного використання. Плями стали світлішими, тон обличчя вирівнявся. Дуже задоволена покупкою!"</p>
                     <div class="client-info">
@@ -736,7 +736,7 @@
                     </div>
                 </div>
                 
-                <!-- Отзыв 3 -->
+                <!-- Відгук 3 -->
                 <div class="testimonial">
                     <p class="testimonial-text">"Замовляв гель для вмивання для проблемної шкіри. Використовую вже місяць - запальні елементи з'являються значно рідше, шкіра стала чистішою і менш жирною. Відмінний продукт за розумні гроші."</p>
                     <div class="client-info">
@@ -759,7 +759,7 @@
         </div>
     </section>
 
-    <!-- Консультация -->
+    <!-- Консультація -->
     <section class="consultation" id="consultation">
         <div class="container">
             <h2 class="text-center">Платна консультація</h2>
@@ -802,7 +802,7 @@
         </div>
     </section>
 
-    <!-- Админка -->
+    <!-- Адмінка -->
     <section class="admin" id="admin">
         <div class="container">
             <h2 class="text-center">Адмін панель</h2>
@@ -869,7 +869,7 @@
                             </tr>
                         </thead>
                         <tbody id="products-table">
-                            <!-- Продукты будут добавляться через JavaScript -->
+                            <!-- Продукти будуть додаватися через JavaScript -->
                         </tbody>
                     </table>
                 </div>
@@ -877,7 +877,7 @@
         </div>
     </section>
 
-    <!-- Подвал -->
+    <!-- Підвал -->
     <footer>
         <div class="container">
             <div class="footer-content">
@@ -915,15 +915,15 @@
             </div>
             
             <div class="copyright">
-                <p>&copy; 2025 BeautyPro. Всі права захищені.</p>
+                <p>© 2025 BeautyPro. Всі права захищені.</p>
             </div>
         </div>
     </footer>
 
-    <!-- Модальное окно оплаты -->
+    <!-- Модальне вікно оплати -->
     <div class="modal" id="payment-modal">
         <div class="modal-content">
-            <span class="close-modal">&times;</span>
+            <span class="close-modal">×</span>
             <h2>Оплата консультації</h2>
             <p>Ви оформлюєте платну консультацію з косметологом.</p>
             <p>Вартість: <strong>500 грн</strong></p>
@@ -935,15 +935,15 @@
                 <p>Гроші не списуватимуться</p>
             </div>
             <div id="wayforpay-widget" style="margin: 20px 0;">
-                <iframe src="https://secure.wayforpay.com/button/buy?merchantAccount=test_merch_n1&amount=500&currency=UAH" 
+                <iframe src="https://secure.wayforpay.com/button/buy?merchantAccount=test_merch_n1&amount=500¤cy=UAH" 
                         style="width:100%; height:400px; border:none;"></iframe>
             </div>
         </div>
     </div>
 
-    <!-- Скрипты -->
+    <!-- Скрипти -->
     <script>
-        // Массив продуктов
+        // Масив продуктів
         let products = [
             {
                 id: 1,
@@ -975,4 +975,209 @@
                 category: "Догляд за тілом",
                 price: 750,
                 image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80",
-                description: "Інтенсивно поживлює та захищає шкіру тіла, запобігає сухості та
+                description: "Інтенсивно живить та захищає шкіру тіла, запобігає сухості та лущенню. Містить натуральні олії та вітамін Е для відновлення шкіри."
+            }
+        ];
+
+        // Функція для відображення продуктів на сторінці
+        function renderProducts() {
+            const productsContainer = document.getElementById('products-container');
+            const productsTable = document.getElementById('products-table');
+            productsContainer.innerHTML = '';
+            productsTable.innerHTML = '';
+
+            products.forEach(product => {
+                // Відображення в секції продуктів
+                const productCard = document.createElement('div');
+                productCard.classList.add('product-card');
+                productCard.innerHTML = `
+                    <div class="product-img">
+                        <img src="${product.image}" alt="${product.name}">
+                    </div>
+                    <div class="product-info">
+                        <span class="category">${product.category}</span>
+                        <h3>${product.name}</h3>
+                        <p>${product.description}</p>
+                        <div class="price">${product.price} грн</div>
+                        <a href="#consultation" class="btn btn-outline">Замовити консультацію</a>
+                    </div>
+                `;
+                productsContainer.appendChild(productCard);
+
+                // Відображення в таблиці адмін-панелі
+                const productRow = document.createElement('tr');
+                productRow.innerHTML = `
+                    <td>${product.name}</td>
+                    <td>${product.category}</td>
+                    <td>${product.price} грн</td>
+                    <td>
+                        <button class="action-btn edit-btn" data-id="${product.id}">Редагувати</button>
+                        <button class="action-btn delete-btn" data-id="${product.id}">Видалити</button>
+                    </td>
+                `;
+                productsTable.appendChild(productRow);
+            });
+
+            // Додавання обробників подій для кнопок редагування та видалення
+            document.querySelectorAll('.edit-btn').forEach(button => {
+                button.addEventListener('click', handleEditProduct);
+            });
+            document.querySelectorAll('.delete-btn').forEach(button => {
+                button.addEventListener('click', handleDeleteProduct);
+            });
+        }
+
+        // Обробка додавання/оновлення продукту
+        document.getElementById('admin-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const productId = document.getElementById('product-id').value;
+            const productName = document.getElementById('product-name').value;
+            const productCategory = document.getElementById('product-category').value;
+            const productPrice = parseFloat(document.getElementById('product-price').value);
+            const productImage = document.getElementById('product-image').value;
+            const productDescription = document.getElementById('product-description').value;
+
+            if (productId) {
+                // Оновлення продукту
+                const productIndex = products.findIndex(p => p.id == productId);
+                products[productIndex] = {
+                    id: parseInt(productId),
+                    name: productName,
+                    category: productCategory,
+                    price: productPrice,
+                    image: productImage,
+                    description: productDescription
+                };
+            } else {
+                // Додавання нового продукту
+                const newProduct = {
+                    id: products.length ? Math.max(...products.map(p => p.id)) + 1 : 1,
+                    name: productName,
+                    category: productCategory,
+                    price: productPrice,
+                    image: productImage,
+                    description: productDescription
+                };
+                products.push(newProduct);
+            }
+
+            // Очищення форми
+            document.getElementById('admin-form').reset();
+            document.getElementById('product-id').value = '';
+            document.getElementById('add-product-btn').style.display = 'block';
+            document.getElementById('update-product-btn').style.display = 'none';
+            document.getElementById('cancel-edit-btn').style.display = 'none';
+
+            // Оновлення відображення продуктів
+            renderProducts();
+        });
+
+        // Обробка редагування продукту
+        function handleEditProduct(e) {
+            const productId = e.target.dataset.id;
+            const product = products.find(p => p.id == productId);
+
+            document.getElementById('product-id').value = product.id;
+            document.getElementById('product-name').value = product.name;
+            document.getElementById('product-category').value = product.category;
+            document.getElementById('product-price').value = product.price;
+            document.getElementById('product-image').value = product.image;
+            document.getElementById('product-description').value = product.description;
+
+            document.getElementById('add-product-btn').style.display = 'none';
+            document.getElementById('update-product-btn').style.display = 'block';
+            document.getElementById('cancel-edit-btn').style.display = 'block';
+        }
+
+        // Обробка видалення продукту
+        function handleDeleteProduct(e) {
+            const productId = e.target.dataset.id;
+            products = products.filter(p => p.id != productId);
+            renderProducts();
+        }
+
+        // Обробка скасування редагування
+        document.getElementById('cancel-edit-btn').addEventListener('click', function() {
+            document.getElementById('admin-form').reset();
+            document.getElementById('product-id').value = '';
+            document.getElementById('add-product-btn').style.display = 'block';
+            document.getElementById('update-product-btn').style.display = 'none';
+            document.getElementById('cancel-edit-btn').style.display = 'none';
+        });
+
+        // Обробка слайдера відгуків
+        const testimonials = document.querySelectorAll('.testimonial');
+        const sliderDots = document.querySelectorAll('.slider-dot');
+        let currentSlide = 0;
+
+        function showSlide(index) {
+            testimonials.forEach((testimonial, i) => {
+                testimonial.classList.toggle('active', i === index);
+            });
+            sliderDots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+            });
+            currentSlide = index;
+        }
+
+        sliderDots.forEach(dot => {
+            dot.addEventListener('click', () => {
+                const slideIndex = parseInt(dot.dataset.slide);
+                showSlide(slideIndex);
+            });
+        });
+
+        // Автоматична зміна слайдів
+        setInterval(() => {
+            currentSlide = (currentSlide + 1) % testimonials.length;
+            showSlide(currentSlide);
+        }, 5000);
+
+        // Обробка мобільного меню
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const navLinks = document.querySelector('.nav-links');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            mobileMenuBtn.querySelector('i').classList.toggle('fa-bars');
+            mobileMenuBtn.querySelector('i').classList.toggle('fa-times');
+        });
+
+        // Обробка модального вікна оплати
+        const consultationForm = document.getElementById('consultation-form');
+        const paymentModal = document.getElementById('payment-modal');
+        const closeModal = document.querySelector('.close-modal');
+        const successMessage = document.getElementById('success-message');
+
+        consultationForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            paymentModal.style.display = 'block';
+        });
+
+        closeModal.addEventListener('click', () => {
+            paymentModal.style.display = 'none';
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === paymentModal) {
+                paymentModal.style.display = 'none';
+            }
+        });
+
+        // Імітація успішної оплати
+        window.addEventListener('message', (event) => {
+            if (event.data === 'payment_success') {
+                paymentModal.style.display = 'none';
+                successMessage.style.display = 'block';
+                consultationForm.reset();
+                setTimeout(() => {
+                    successMessage.style.display = 'none';
+                }, 5000);
+            }
+        });
+
+        // Ініціалізація відображення продуктів
+        renderProducts();
+    </script>
+</body>
+</html>
