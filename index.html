@@ -566,6 +566,28 @@
             text-align: center;
         }
         
+        /* Password Toggle */
+        .password-container {
+            position: relative;
+        }
+        
+        .password-toggle {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--dark-color);
+            font-size: 16px;
+            padding: 5px;
+        }
+        
+        .password-toggle:hover {
+            color: var(--primary-color);
+        }
+        
         /* Hidden Class */
         .hidden {
             display: none;
@@ -947,7 +969,7 @@
                 <p>Гроші не списуватимуться</p>
             </div>
             <div id="wayforpay-widget" style="margin: 20px 0;">
-                <iframe src="https://secure.wayforpay.com/button/buy?merchantAccount=test_merch_n1&amount=500&currency=UAH" 
+                <iframe src="https://secure.wayforpay.com/button/buy?merchantAccount=test_merch_n1&amount=500¤cy=UAH" 
                         style="width:100%; height:400px; border:none;"></iframe>
             </div>
         </div>
@@ -959,9 +981,12 @@
             <span class="close-modal">×</span>
             <h2>Вхід в адмін-панель</h2>
             <form id="admin-login-form">
-                <div class="form-group">
+                <div class="form-group password-container">
                     <label for="admin-password">Пароль</label>
                     <input type="password" id="admin-password" required>
+                    <button type="button" class="password-toggle" title="Показати/приховати пароль">
+                        <i class="fas fa-eye"></i>
+                    </button>
                 </div>
                 <div id="admin-login-error">Невірний пароль!</div>
                 <button type="submit" class="btn" style="width: 100%;">Увійти</button>
@@ -1192,7 +1217,10 @@
                 if (response.ok) {
                     return await response.json();
                 }
-                throw new Error('Network response was not ok');
+                const errorText = await response.text();
+                throw new Error(errorText.includes('Confirmation token not found') 
+                    ? 'Email не підтверджено. Будь ласка, перевірте пошту (включаючи спам) і підтвердіть email.' 
+                    : 'Сталася помилка при відправці форми.');
             } catch (error) {
                 console.error('Error:', error);
                 throw error;
@@ -1217,9 +1245,9 @@
             const formData = new FormData(consultationForm);
             try {
                 await sendFormData(formData);
-                paymentModal.style.display = 'block'; // Показываем модальное окно оплаты
+                paymentModal.style.display = 'block'; // Показуємо модальне вікно оплати
             } catch (error) {
-                alert('Сталася помилка при відправці форми. Спробуйте ще раз.');
+                alert(error.message || 'Сталася помилка при відправці форми. Спробуйте ще раз.');
             }
         });
 
@@ -1255,7 +1283,17 @@
         const adminLoginForm = document.getElementById('admin-login-form');
         const adminLoginError = document.getElementById('admin-login-error');
         const adminCloseModal = adminLoginModal.querySelector('.close-modal');
+        const passwordInput = document.getElementById('admin-password');
+        const passwordToggle = document.querySelector('.password-toggle');
         const ADMIN_PASSWORD = 'admin123'; // Пароль для доступу (у реальному проекті зберігайте на сервері)
+
+        // Показати/приховати пароль
+        passwordToggle.addEventListener('click', () => {
+            const isPasswordVisible = passwordInput.type === 'text';
+            passwordInput.type = isPasswordVisible ? 'password' : 'text';
+            passwordToggle.querySelector('i').classList.toggle('fa-eye', !isPasswordVisible);
+            passwordToggle.querySelector('i').classList.toggle('fa-eye-slash', isPasswordVisible);
+        });
 
         // Сховати адмін-панель за замовчуванням
         adminSection.classList.add('hidden');
@@ -1269,7 +1307,7 @@
         // Обробка форми входу
         adminLoginForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            const password = document.getElementById('admin-password').value;
+            const password = passwordInput.value;
 
             if (password === ADMIN_PASSWORD) {
                 adminSection.classList.remove('hidden');
