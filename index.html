@@ -335,7 +335,7 @@
             margin: 40px auto 0;
             background-color: var(--white-color);
             padding: 30px;
-            border-radius: 14px;
+            border-radius: 10px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
         
@@ -784,11 +784,6 @@
             
             <div class="consultation-form">
                 <form id="consultation-form">
-                    <input type="hidden" name="_captcha" value="false">
-                    <input type="hidden" name="_subject" value="Нова заявка на консультацію з сайту BeautyPro">
-                    <input type="hidden" name="_template" value="table">
-                    <input type="hidden" name="_next" value="thank-you.html">
-                    
                     <div class="form-group">
                         <label for="consult-name">Ваше імʼя</label>
                         <input type="text" id="consult-name" name="Ім'я" required>
@@ -810,7 +805,7 @@
                     </div>
                     
                     <div id="success-message" style="display: none;">
-                        Дякуємо! Ваша заявка прийнята. Ми зв'яжемося з вами найближчим часом.
+                        Дякуємо! Ваша заявка відправлена. Ми зв'яжемося з вами найближчим часом.
                     </div>
                     
                     <button type="submit" class="btn" style="width: 100%;">Замовити консультацію (500 грн)</button>
@@ -1176,17 +1171,60 @@
             mobileMenuBtn.querySelector('i').classList.toggle('fa-times');
         });
 
-        // Обробка модального вікна оплати
+        // Функція валідації телефону
+        function validatePhone(phone) {
+            const phoneRegex = /^(\+380|0)\d{9}$/;
+            return phoneRegex.test(phone);
+        }
+
+        // Функція відправки форми через FormSubmit
+        async function sendFormData(formData) {
+            try {
+                const response = await fetch('https://formsubmit.co/ajax/andrii.zub@nure.ua', {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(Object.fromEntries(formData))
+                });
+                
+                if (response.ok) {
+                    return await response.json();
+                }
+                throw new Error('Network response was not ok');
+            } catch (error) {
+                console.error('Error:', error);
+                throw error;
+            }
+        }
+
+        // Обробка відправки форми консультації
         const consultationForm = document.getElementById('consultation-form');
         const paymentModal = document.getElementById('payment-modal');
-        const closeModal = document.querySelector('.close-modal');
         const successMessage = document.getElementById('success-message');
 
-        consultationForm.addEventListener('submit', function(e) {
+        consultationForm.addEventListener('submit', async function(e) {
             e.preventDefault();
-            paymentModal.style.display = 'block';
+
+            // Валідація телефону
+            const phoneInput = document.getElementById('consult-phone');
+            if (!validatePhone(phoneInput.value)) {
+                alert('Будь ласка, введіть коректний номер телефону у форматі +380XXXXXXXXX або 0XXXXXXXXX');
+                return;
+            }
+
+            const formData = new FormData(consultationForm);
+            try {
+                await sendFormData(formData);
+                paymentModal.style.display = 'block'; // Показываем модальное окно оплаты
+            } catch (error) {
+                alert('Сталася помилка при відправці форми. Спробуйте ще раз.');
+            }
         });
 
+        // Обробка модального вікна оплати
+        const closeModal = document.querySelector('.close-modal');
         closeModal.addEventListener('click', () => {
             paymentModal.style.display = 'none';
         });
@@ -1203,6 +1241,7 @@
                 paymentModal.style.display = 'none';
                 successMessage.style.display = 'block';
                 consultationForm.reset();
+                successMessage.scrollIntoView({ behavior: 'smooth' });
                 setTimeout(() => {
                     successMessage.style.display = 'none';
                 }, 5000);
