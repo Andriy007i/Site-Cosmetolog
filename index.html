@@ -363,7 +363,7 @@
             resize: vertical;
         }
         
-        /* Admin Panel */
+       /* Admin Panel */
         .admin-panel {
             background-color: #f8f9fa;
             padding: 20px;
@@ -803,7 +803,7 @@
     </section>
 
     <!-- Адмінка -->
-    <section class="admin" id="admin">
+    <section class="admin hidden" id="admin">
         <div class="container">
             <h2 class="text-center">Адмін панель</h2>
             <p class="text-center">Додавання та редагування товарів</p>
@@ -1173,6 +1173,55 @@
                 setTimeout(() => {
                     successMessage.style.display = 'none';
                 }, 5000);
+            }
+        });
+
+        // Обробка адмін-панелі
+        const adminSection = document.getElementById('admin');
+        const adminLink = document.getElementById('admin-link');
+        const adminLoginModal = document.getElementById('admin-login-modal');
+        const adminLoginForm = document.getElementById('admin-login-form');
+        const adminLoginError = document.getElementById('admin-login-error');
+        const adminCloseModal = adminLoginModal.querySelector('.close-modal');
+        const ADMIN_PASSWORD = 'admin123'; // Пароль для доступу (у реальному проекті зберігайте на сервері)
+
+        // Сховати адмін-панель за замовчуванням
+        adminSection.classList.add('hidden');
+
+        // Показати модальне вікно для входу при кліку на посилання адмінки
+        adminLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            adminLoginModal.style.display = 'block';
+        });
+
+        // Обробка форми входу
+        adminLoginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const password = document.getElementById('admin-password').value;
+
+            if (password === ADMIN_PASSWORD) {
+                adminSection.classList.remove('hidden');
+                adminLoginModal.style.display = 'none';
+                adminLoginForm.reset();
+                adminLoginError.style.display = 'none';
+                window.location.hash = '#admin';
+            } else {
+                adminLoginError.style.display = 'block';
+            }
+        });
+
+        // Закриття модального вікна входу
+        adminCloseModal.addEventListener('click', () => {
+            adminLoginModal.style.display = 'none';
+            adminLoginForm.reset();
+            adminLoginError.style.display = 'none';
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === adminLoginModal) {
+                adminLoginModal.style.display = 'none';
+                adminLoginForm.reset();
+                adminLoginError.style.display = 'none';
             }
         });
 
